@@ -15,6 +15,8 @@ class Vite {
 	protected string $baseurl;
 	protected array $assets;
 
+	public const CLIENT = '@vite/client';
+
 
 	public function __construct( string $manifest, string $baseurl ) {
 
@@ -64,13 +66,25 @@ class Vite {
 
 	public function path( string $name ): string {
 
-		$asset = $this->asset( $name );
+		if ( ! wp_script_is( self::CLIENT ) ) {
+			$asset = $this->asset( $name );
 
-		if ( ! empty( $asset ) ) {
-			$name = trailingslashit( $this->basedir ) . $asset['file'];
+			if ( ! empty( $asset ) ) {
+				$name = trailingslashit( $this->basedir ) . $asset['file'];
+			}
 		}
 
 		return trailingslashit( $this->baseurl ) . $name;
+
+	}
+
+
+	public function development( string $localurl ): void {
+
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+		wp_register_script( self::CLIENT, trailingslashit( $localurl ) . self::CLIENT, array(), null, false );
+
+		$this->baseurl = $localurl;
 
 	}
 
