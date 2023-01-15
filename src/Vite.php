@@ -12,12 +12,14 @@ namespace ThemePlate;
 class Vite {
 
 	protected string $basedir;
+	protected string $baseurl;
 	protected array $assets;
 
 
-	public function __construct( string $manifest ) {
+	public function __construct( string $manifest, string $baseurl ) {
 
 		$this->basedir = basename( dirname( $manifest ) );
+		$this->baseurl = $baseurl;
 		$this->assets  = $this->parse( $manifest );
 
 	}
@@ -68,7 +70,7 @@ class Vite {
 			$name = trailingslashit( $this->basedir ) . $asset['file'];
 		}
 
-		return $name;
+		return trailingslashit( $this->baseurl ) . $name;
 
 	}
 
