@@ -24,6 +24,8 @@ class Vite {
 		$this->baseurl = $baseurl;
 		$this->assets  = $this->parse( $manifest );
 
+		$this->init( $manifest );
+
 	}
 
 
@@ -49,6 +51,26 @@ class Vite {
 		}
 
 		return $decoded;
+
+	}
+
+
+	protected function init( string $manifest ): void {
+
+		$urlfile = dirname( $manifest ) . '/themeplate';
+
+		if ( ! file_exists( $urlfile ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$localurl = file_get_contents( $urlfile );
+
+		if ( false === $localurl ) {
+			return;
+		}
+
+		$this->development( $localurl );
 
 	}
 

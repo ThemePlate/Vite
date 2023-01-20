@@ -3,3 +3,5 @@
 /.cache/
 /vendor/
 /composer.lock
+/node_modules/
+/pnpm-lock.yaml
