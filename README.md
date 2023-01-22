@@ -6,7 +6,7 @@
 use ThemePlate\Vite;
 
 add_action( 'wp_enqueue_scripts', function() {
-	$vite = new Vite( get_stylesheet_directory() . '/dist/manifest.json', get_stylesheet_directory_uri() );
+	$vite = new Vite( get_stylesheet_directory(), get_stylesheet_directory_uri() );
 
 	$vite->style( 'main-style', 'src/main.css' );
 	$vite->script( 'main-script', 'src/main.js' );

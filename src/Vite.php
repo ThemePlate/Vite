@@ -13,31 +13,35 @@ use ThemePlate\Enqueue\CustomData;
 
 class Vite {
 
-	protected string $basedir;
-	protected string $baseurl;
+	protected string $public_base;
 	protected array $assets;
 	protected array $config;
-	protected CustomData $customdata;
+	protected CustomData $custom_data;
 
 	public const CLIENT = '@vite/client';
 	public const CONFIG = 'vite.themeplate.json';
 
+	public const DEFAULTS = array(
+		'outDir'  => 'dist',
+		'isBuild' => true,
+		'urls'    => array(
+			'local'   => array(),
+			'network' => array(),
+		),
+	);
 
-	public function __construct( string $basedir, string $baseurl ) {
 
-		$this->basedir = $basedir;
-		$this->baseurl = $baseurl;
+	public function __construct( string $project_root, string $public_base ) {
 
-		$this->customdata = new CustomData();
+		$this->public_base = trailingslashit( $public_base );
+		$this->custom_data = new CustomData();
 
-		$this->init();
+		$this->init( trailingslashit( $project_root ) );
 
 	}
 
 
-	protected function parse( string $file, array $default ): array {
-
-		$file = trailingslashit( $this->basedir ) . $file;
+	protected function parse( string $file, array $default = array() ): array {
 
 		if ( ! file_exists( $file ) ) {
 			return $default;
@@ -61,22 +65,13 @@ class Vite {
 	}
 
 
-	protected function init(): void {
+	protected function init( string $project_root ): void {
 
-		$default = array(
-			'outDir'  => 'dist',
-			'isBuild' => true,
-			'urls'    => array(
-				'local'   => array(),
-				'network' => array(),
-			),
-		);
-
-		$this->config = $this->parse( self::CONFIG, $default );
-		$this->assets = $this->parse( trailingslashit( $this->config['outDir'] ) . 'manifest.json', array() );
+		$this->config = $this->parse( $project_root . self::CONFIG, self::DEFAULTS );
+		$this->assets = $this->parse( $project_root . trailingslashit( $this->config['outDir'] ) . 'manifest.json' );
 
 		if ( ! $this->config['isBuild'] ) {
-			$this->baseurl = $this->config['urls']['local'][0];
+			$this->public_base = trailingslashit( $this->config['urls']['local'][0] );
 		}
 
 	}
@@ -86,18 +81,18 @@ class Vite {
 
 		if ( ! $this->config['isBuild'] ) {
 			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-			wp_enqueue_script( self::CLIENT, trailingslashit( $this->baseurl ) . self::CLIENT, array(), null, false );
-			$this->customdata->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
+			wp_enqueue_script( self::CLIENT, $this->public_base . self::CLIENT, array(), null, false );
+			$this->custom_data->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
 		}
 
-		$this->customdata->action();
+		$this->custom_data->action();
 
 	}
 
 
 	public function asset( string $name ): array {
 
-		if ( ! isset( $this->assets[ $name ] ) ) {
+		if ( ! $this->config['isBuild'] || ! isset( $this->assets[ $name ] ) ) {
 			return array();
 		}
 
@@ -116,7 +111,7 @@ class Vite {
 			}
 		}
 
-		return trailingslashit( $this->baseurl ) . $name;
+		return $this->public_base . $name;
 
 	}
 
@@ -137,7 +132,7 @@ class Vite {
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_script( $handle, $this->path( $src ), $deps, null, $in_footer );
-		$this->customdata->add( 'script', $handle, array( 'type' => 'module' ) );
+		$this->custom_data->add( 'script', $handle, array( 'type' => 'module' ) );
 
 	}
 
