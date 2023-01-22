@@ -1,10 +1,30 @@
-import { mergeConfig } from 'vite';
-import { resolve } from 'path';
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
+import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
+import { basename, resolve } from 'path';
+import { existsSync, rmSync, writeFileSync } from 'fs';
 
 import type { Plugin, UserConfig, ViteDevServer } from 'vite';
+import type { OutputOptions } from 'rollup';
+
+const configFile = 'vite.themeplate.json';
+const defaultUrls = {
+	local: [],
+	network: [],
+};
+
+function writeConfig( root: string, outDir: string, isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
+	const file = resolve( root, configFile );
+	const data = {
+		outDir,
+		isBuild,
+		urls,
+	};
+
+	writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
+}
 
 export default function themeplate(): Plugin {
+	let resolvedConfig: ResolvedConfig;
+
 	return {
 		name: 'vite-plugin-themeplate',
 		enforce: 'post',
@@ -17,10 +37,17 @@ export default function themeplate(): Plugin {
 			} )
 		},
 
+		configResolved( config: ResolvedConfig ) {
+			resolvedConfig = config;
+		},
+
+		writeBundle( output: OutputOptions ) {
+			writeConfig( resolvedConfig.root, basename( output.dir! ), true );
+		},
+
 		configureServer( server: ViteDevServer ) {
 			const { config, httpServer } = server;
-			const outDir = resolve( config.root, config.build.outDir );
-			const outFile = resolve( outDir, 'themeplate' );
+			const outFile = resolve( config.root, configFile );
 
 			const clean = () => {
 				if ( existsSync( outFile ) ) {
@@ -36,11 +63,7 @@ export default function themeplate(): Plugin {
 			httpServer?.once( 'listening', () => {
 				const checker = setInterval( () => {
 					if ( null !== server.resolvedUrls ) {
-						if ( ! existsSync( outDir ) ) {
-							mkdirSync( outDir );
-						}
-
-						writeFileSync( outFile, server.resolvedUrls.local[0] );
+						writeConfig( config.root, basename( config.build.outDir ), false, server.resolvedUrls );
 						clearInterval( checker );
 					}
 				}, 0 );

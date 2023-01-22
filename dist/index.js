@@ -3,7 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vite_1 = require("vite");
 const path_1 = require("path");
 const fs_1 = require("fs");
+const configFile = 'vite.themeplate.json';
+const defaultUrls = {
+    local: [],
+    network: [],
+};
+function writeConfig(root, outDir, isBuild, urls = defaultUrls) {
+    const file = (0, path_1.resolve)(root, configFile);
+    const data = {
+        outDir,
+        isBuild,
+        urls,
+    };
+    (0, fs_1.writeFileSync)(file, JSON.stringify(data, null, 2), 'utf8');
+}
 function themeplate() {
+    let resolvedConfig;
     return {
         name: 'vite-plugin-themeplate',
         enforce: 'post',
@@ -14,10 +29,15 @@ function themeplate() {
                 },
             });
         },
+        configResolved(config) {
+            resolvedConfig = config;
+        },
+        writeBundle(output) {
+            writeConfig(resolvedConfig.root, (0, path_1.basename)(output.dir), true);
+        },
         configureServer(server) {
             const { config, httpServer } = server;
-            const outDir = (0, path_1.resolve)(config.root, config.build.outDir);
-            const outFile = (0, path_1.resolve)(outDir, 'themeplate');
+            const outFile = (0, path_1.resolve)(config.root, configFile);
             const clean = () => {
                 if ((0, fs_1.existsSync)(outFile)) {
                     (0, fs_1.rmSync)(outFile);
@@ -30,10 +50,7 @@ function themeplate() {
             httpServer?.once('listening', () => {
                 const checker = setInterval(() => {
                     if (null !== server.resolvedUrls) {
-                        if (!(0, fs_1.existsSync)(outDir)) {
-                            (0, fs_1.mkdirSync)(outDir);
-                        }
-                        (0, fs_1.writeFileSync)(outFile, server.resolvedUrls.local[0]);
+                        writeConfig(config.root, (0, path_1.basename)(config.build.outDir), false, server.resolvedUrls);
                         clearInterval(checker);
                     }
                 }, 0);
