@@ -16,28 +16,28 @@ class Vite {
 	protected string $basedir;
 	protected string $baseurl;
 	protected array $assets;
-	protected bool $devmode = false;
+	protected array $config;
 	protected CustomData $customdata;
 
 	public const CLIENT = '@vite/client';
+	public const CONFIG = 'vite.themeplate.json';
 
 
-	public function __construct( string $manifest, string $baseurl ) {
+	public function __construct( string $basedir, string $baseurl ) {
 
-		$this->basedir = basename( dirname( $manifest ) );
+		$this->basedir = $basedir;
 		$this->baseurl = $baseurl;
-		$this->assets  = $this->parse( $manifest );
 
 		$this->customdata = new CustomData();
 
-		$this->init( $manifest );
+		$this->init();
 
 	}
 
 
-	protected function parse( string $file ): array {
+	protected function parse( string $file, array $default ): array {
 
-		$default = array();
+		$file = trailingslashit( $this->basedir ) . $file;
 
 		if ( ! file_exists( $file ) ) {
 			return $default;
@@ -61,30 +61,30 @@ class Vite {
 	}
 
 
-	protected function init( string $manifest ): void {
+	protected function init(): void {
 
-		$urlfile = dirname( $manifest ) . '/themeplate';
+		$default = array(
+			'outDir'  => 'dist',
+			'isBuild' => true,
+			'urls'    => array(
+				'local'   => array(),
+				'network' => array(),
+			),
+		);
 
-		if ( ! file_exists( $urlfile ) ) {
-			return;
+		$this->config = $this->parse( self::CONFIG, $default );
+		$this->assets = $this->parse( trailingslashit( $this->config['outDir'] ) . 'manifest.json', array() );
+
+		if ( ! $this->config['isBuild'] ) {
+			$this->baseurl = $this->config['urls']['local'][0];
 		}
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-		$localurl = file_get_contents( $urlfile );
-
-		if ( false === $localurl ) {
-			return;
-		}
-
-		$this->baseurl = $localurl;
-		$this->devmode = true;
 
 	}
 
 
 	public function action(): void {
 
-		if ( $this->devmode ) {
+		if ( ! $this->config['isBuild'] ) {
 			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_script( self::CLIENT, trailingslashit( $this->baseurl ) . self::CLIENT, array(), null, false );
 			$this->customdata->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
@@ -108,11 +108,11 @@ class Vite {
 
 	public function path( string $name ): string {
 
-		if ( ! $this->devmode ) {
+		if ( $this->config['isBuild'] ) {
 			$asset = $this->asset( $name );
 
 			if ( ! empty( $asset ) ) {
-				$name = trailingslashit( $this->basedir ) . $asset['file'];
+				$name = trailingslashit( $this->config['outDir'] ) . $asset['file'];
 			}
 		}
 
@@ -131,7 +131,7 @@ class Vite {
 
 	public function script( string $handle, string $src, array $deps = array(), bool $in_footer = false ): void {
 
-		if ( $this->devmode ) {
+		if ( ! $this->config['isBuild'] ) {
 			$deps[] = self::CLIENT;
 		}
 
