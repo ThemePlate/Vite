@@ -16,6 +16,7 @@ class Vite {
 	protected string $basedir;
 	protected string $baseurl;
 	protected array $assets;
+	protected bool $devmode = false;
 	protected CustomData $customdata;
 
 	public const CLIENT = '@vite/client';
@@ -75,15 +76,18 @@ class Vite {
 			return;
 		}
 
-		$this->development( $localurl );
+		$this->baseurl = $localurl;
+		$this->devmode = true;
 
 	}
 
 
 	public function action(): void {
 
-		if ( wp_script_is( self::CLIENT, 'registered' ) ) {
-			wp_enqueue_script( self::CLIENT );
+		if ( $this->devmode ) {
+			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_script( self::CLIENT, trailingslashit( $this->baseurl ) . self::CLIENT, array(), null, false );
+			$this->customdata->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
 		}
 
 		$this->customdata->action();
@@ -104,7 +108,7 @@ class Vite {
 
 	public function path( string $name ): string {
 
-		if ( ! wp_script_is( self::CLIENT, 'registered' ) ) {
+		if ( ! $this->devmode ) {
 			$asset = $this->asset( $name );
 
 			if ( ! empty( $asset ) ) {
@@ -113,17 +117,6 @@ class Vite {
 		}
 
 		return trailingslashit( $this->baseurl ) . $name;
-
-	}
-
-
-	public function development( string $localurl ): void {
-
-		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_register_script( self::CLIENT, trailingslashit( $localurl ) . self::CLIENT, array(), null, false );
-		$this->customdata->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
-
-		$this->baseurl = $localurl;
 
 	}
 
@@ -138,7 +131,7 @@ class Vite {
 
 	public function script( string $handle, string $src, array $deps = array(), bool $in_footer = false ): void {
 
-		if ( wp_script_is( self::CLIENT, 'registered' ) ) {
+		if ( $this->devmode ) {
 			$deps[] = self::CLIENT;
 		}
 
