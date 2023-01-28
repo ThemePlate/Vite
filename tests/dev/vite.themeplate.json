@@ -1,0 +1,10 @@
+{
+  "outDir": "",
+  "isBuild": false,
+  "urls": {
+    "local": [
+      "http://localhost:5173/"
+    ],
+    "network": []
+  }
+}
