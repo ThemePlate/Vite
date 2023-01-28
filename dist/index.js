@@ -8,8 +8,9 @@ const defaultUrls = {
     local: [],
     network: [],
 };
-function writeConfig(root, outDir, isBuild, urls = defaultUrls) {
-    const file = (0, path_1.resolve)(root, configFile);
+function writeConfig(config, isBuild, urls = defaultUrls) {
+    const file = (0, path_1.resolve)(config.root, configFile);
+    const outDir = config.build.outDir;
     const data = {
         outDir,
         isBuild,
@@ -32,8 +33,8 @@ function themeplate() {
         configResolved(config) {
             resolvedConfig = config;
         },
-        writeBundle(output) {
-            writeConfig(resolvedConfig.root, (0, path_1.basename)(output.dir), true);
+        writeBundle() {
+            writeConfig(resolvedConfig, true);
         },
         configureServer(server) {
             const { config, httpServer } = server;
@@ -53,7 +54,7 @@ function themeplate() {
                         if (!(0, fs_1.existsSync)(config.root)) {
                             (0, fs_1.mkdirSync)(config.root);
                         }
-                        writeConfig(config.root, (0, path_1.basename)(config.build.outDir), false, server.resolvedUrls);
+                        writeConfig(config, false, server.resolvedUrls);
                         clearInterval(checker);
                     }
                 }, 0);

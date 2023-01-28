@@ -1,9 +1,8 @@
 import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
-import { basename, resolve } from 'path';
+import { resolve } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { Plugin, UserConfig, ViteDevServer } from 'vite';
-import type { OutputOptions } from 'rollup';
 
 const configFile = 'vite.themeplate.json';
 const defaultUrls = {
@@ -11,8 +10,9 @@ const defaultUrls = {
 	network: [],
 };
 
-function writeConfig( root: string, outDir: string, isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
-	const file = resolve( root, configFile );
+function writeConfig( config: ResolvedConfig, isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
+	const file = resolve( config.root, configFile );
+	const outDir = config.build.outDir;
 	const data = {
 		outDir,
 		isBuild,
@@ -41,8 +41,8 @@ export default function themeplate(): Plugin {
 			resolvedConfig = config;
 		},
 
-		writeBundle( output: OutputOptions ) {
-			writeConfig( resolvedConfig.root, basename( output.dir! ), true );
+		writeBundle() {
+			writeConfig( resolvedConfig, true );
 		},
 
 		configureServer( server: ViteDevServer ) {
@@ -67,7 +67,7 @@ export default function themeplate(): Plugin {
 							mkdirSync( config.root );
 						}
 
-						writeConfig( config.root, basename( config.build.outDir ), false, server.resolvedUrls );
+						writeConfig( config, false, server.resolvedUrls );
 						clearInterval( checker );
 					}
 				}, 0 );
