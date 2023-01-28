@@ -1,6 +1,6 @@
 import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
 import { basename, resolve } from 'path';
-import { existsSync, rmSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { Plugin, UserConfig, ViteDevServer } from 'vite';
 import type { OutputOptions } from 'rollup';
@@ -63,6 +63,10 @@ export default function themeplate(): Plugin {
 			httpServer?.once( 'listening', () => {
 				const checker = setInterval( () => {
 					if ( null !== server.resolvedUrls ) {
+						if ( ! existsSync( config.root ) ) {
+							mkdirSync( config.root );
+						}
+
 						writeConfig( config.root, basename( config.build.outDir ), false, server.resolvedUrls );
 						clearInterval( checker );
 					}

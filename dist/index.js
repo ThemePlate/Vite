@@ -50,6 +50,9 @@ function themeplate() {
             httpServer?.once('listening', () => {
                 const checker = setInterval(() => {
                     if (null !== server.resolvedUrls) {
+                        if (!(0, fs_1.existsSync)(config.root)) {
+                            (0, fs_1.mkdirSync)(config.root);
+                        }
                         writeConfig(config.root, (0, path_1.basename)(config.build.outDir), false, server.resolvedUrls);
                         clearInterval(checker);
                     }
