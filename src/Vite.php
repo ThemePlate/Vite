@@ -65,10 +65,21 @@ class Vite {
 	}
 
 
+	protected function outpath( string $file ): string {
+
+		if ( '' === $this->config['outDir'] ) {
+			return $file;
+		}
+
+		return trailingslashit( $this->config['outDir'] ) . $file;
+
+	}
+
+
 	protected function init( string $project_root ): void {
 
 		$this->config = $this->parse( $project_root . self::CONFIG, self::DEFAULTS );
-		$this->assets = $this->parse( $project_root . trailingslashit( $this->config['outDir'] ) . 'manifest.json' );
+		$this->assets = $this->parse( $project_root . $this->outpath( 'manifest.json' ) );
 
 		if ( ! $this->config['isBuild'] ) {
 			$this->public_base = trailingslashit( $this->config['urls']['local'][0] );
@@ -107,7 +118,7 @@ class Vite {
 			$asset = $this->asset( $name );
 
 			if ( ! empty( $asset ) ) {
-				$name = trailingslashit( $this->config['outDir'] ) . $asset['file'];
+				$name = $this->outpath( $asset['file'] );
 			}
 		}
 
