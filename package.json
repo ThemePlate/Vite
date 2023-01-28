@@ -13,6 +13,9 @@
     "name": "Gene Alyson Fortunado Torcende",
     "email": "genealyson.torcende@gmail.com"
   },
+  "files": [
+    "/dist"
+  ],
   "main": "dist/index.js",
   "repository": {
     "type": "git",
