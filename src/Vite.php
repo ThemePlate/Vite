@@ -134,23 +134,33 @@ class Vite {
 	}
 
 
-	public function style( string $handle, string $src, array $deps = array(), string $media = 'all' ): void {
+	public function style( string $src, array $deps = array(), string $media = 'all' ): string {
+
+		$srcpath = $this->path( $src );
+		$handle  = md5( $srcpath );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_style( $handle, $this->path( $src ), $deps, null, $media );
+		wp_enqueue_style( $handle, $srcpath, $deps, null, $media );
+
+		return $handle;
 
 	}
 
 
-	public function script( string $handle, string $src, array $deps = array(), bool $in_footer = false ): void {
+	public function script( string $src, array $deps = array(), bool $in_footer = false ): string {
 
 		if ( $this->development() ) {
 			$deps[] = self::CLIENT;
 		}
 
+		$srcpath = $this->path( $src );
+		$handle  = md5( $srcpath );
+
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_script( $handle, $this->path( $src ), $deps, null, $in_footer );
+		wp_enqueue_script( $handle, $srcpath, $deps, null, $in_footer );
 		$this->custom_data->add( 'script', $handle, array( 'type' => 'module' ) );
+
+		return $handle;
 
 	}
 
