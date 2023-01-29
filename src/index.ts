@@ -13,8 +13,9 @@ const defaultUrls = {
 export default function themeplate(): Plugin {
 	let resolvedConfig: ResolvedConfig;
 
-	function writeConfig( isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
+	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
 		const file = resolve( resolvedConfig.root, configFile );
+		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
 		const data = {
 			outDir,
@@ -42,7 +43,7 @@ export default function themeplate(): Plugin {
 		},
 
 		writeBundle() {
-			writeConfig( true );
+			writeConfig();
 		},
 
 		configureServer( server: ViteDevServer ) {
@@ -67,7 +68,7 @@ export default function themeplate(): Plugin {
 							mkdirSync( config.root );
 						}
 
-						writeConfig( false, server.resolvedUrls );
+						writeConfig( server.resolvedUrls );
 						clearInterval( checker );
 					}
 				}, 0 );
