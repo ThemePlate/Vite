@@ -10,20 +10,20 @@ const defaultUrls = {
 	network: [],
 };
 
-function writeConfig( config: ResolvedConfig, isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
-	const file = resolve( config.root, configFile );
-	const outDir = config.build.outDir;
-	const data = {
-		outDir,
-		isBuild,
-		urls,
-	};
-
-	writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
-}
-
 export default function themeplate(): Plugin {
 	let resolvedConfig: ResolvedConfig;
+
+	function writeConfig( isBuild: boolean, urls: ResolvedServerUrls = defaultUrls ) {
+		const file = resolve( resolvedConfig.root, configFile );
+		const outDir = resolvedConfig.build.outDir;
+		const data = {
+			outDir,
+			isBuild,
+			urls,
+		};
+
+		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
+	}
 
 	return {
 		name: 'vite-plugin-themeplate',
@@ -42,7 +42,7 @@ export default function themeplate(): Plugin {
 		},
 
 		writeBundle() {
-			writeConfig( resolvedConfig, true );
+			writeConfig( true );
 		},
 
 		configureServer( server: ViteDevServer ) {
@@ -67,7 +67,7 @@ export default function themeplate(): Plugin {
 							mkdirSync( config.root );
 						}
 
-						writeConfig( config, false, server.resolvedUrls );
+						writeConfig( false, server.resolvedUrls );
 						clearInterval( checker );
 					}
 				}, 0 );
