@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-themeplate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Straight-forward Vite integration for WordPress",
   "keywords": [
     "vite",
@@ -17,6 +17,7 @@
     "/dist"
   ],
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ThemePlate/Vite.git"

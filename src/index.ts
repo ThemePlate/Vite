@@ -1,5 +1,5 @@
 import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
-import { extname, resolve } from 'path';
+import { extname, relative, resolve } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { Plugin, UserConfig, ViteDevServer } from 'vite';
@@ -76,6 +76,7 @@ export default function themeplate(): Plugin {
 
 			const reload = ( path: string ) => {
 				if ( '.php' === extname( path ) ) {
+					config.logger.info( `page reload ${ relative( config.root, path ) }`, { timestamp: true } );
 					ws.send( {
 						type: 'full-reload',
 						path
