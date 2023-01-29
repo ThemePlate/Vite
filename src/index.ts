@@ -1,5 +1,5 @@
 import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
-import { resolve } from 'path';
+import { extname, resolve } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { Plugin, UserConfig, ViteDevServer } from 'vite';
@@ -47,7 +47,7 @@ export default function themeplate(): Plugin {
 		},
 
 		configureServer( server: ViteDevServer ) {
-			const { config, httpServer } = server;
+			const { config, httpServer, ws, watcher } = server;
 			const outFile = resolve( config.root, configFile );
 
 			const clean = () => {
@@ -73,6 +73,18 @@ export default function themeplate(): Plugin {
 					}
 				}, 0 );
 			} );
+
+			const reload = ( path: string ) => {
+				if ( '.php' === extname( path ) ) {
+					ws.send( {
+						type: 'full-reload',
+						path
+					} );
+				}
+			}
+
+			watcher.on( 'add', reload )
+			watcher.on( 'change', reload )
 		},
 	};
 }
