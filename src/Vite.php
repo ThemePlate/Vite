@@ -76,12 +76,19 @@ class Vite {
 	}
 
 
+	public function development(): bool {
+
+		return ! $this->config['isBuild'];
+
+	}
+
+
 	protected function init( string $project_root ): void {
 
 		$this->config = $this->parse( $project_root . self::CONFIG, self::DEFAULTS );
 		$this->assets = $this->parse( $project_root . $this->outpath( 'manifest.json' ) );
 
-		if ( ! $this->config['isBuild'] ) {
+		if ( $this->development() ) {
 			$this->public_base = trailingslashit( $this->config['urls']['local'][0] );
 		}
 
@@ -90,7 +97,7 @@ class Vite {
 
 	public function action(): void {
 
-		if ( ! $this->config['isBuild'] ) {
+		if ( $this->development() ) {
 			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_script( self::CLIENT, $this->public_base . self::CLIENT, array(), null, false );
 			$this->custom_data->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
@@ -103,7 +110,7 @@ class Vite {
 
 	public function asset( string $name ): array {
 
-		if ( ! $this->config['isBuild'] || ! isset( $this->assets[ $name ] ) ) {
+		if ( $this->development() || ! isset( $this->assets[ $name ] ) ) {
 			return array();
 		}
 
@@ -114,7 +121,7 @@ class Vite {
 
 	public function path( string $name ): string {
 
-		if ( $this->config['isBuild'] ) {
+		if ( ! $this->development() ) {
 			$asset = $this->asset( $name );
 
 			if ( ! empty( $asset ) ) {
@@ -137,7 +144,7 @@ class Vite {
 
 	public function script( string $handle, string $src, array $deps = array(), bool $in_footer = false ): void {
 
-		if ( ! $this->config['isBuild'] ) {
+		if ( $this->development() ) {
 			$deps[] = self::CLIENT;
 		}
 

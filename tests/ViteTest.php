@@ -37,14 +37,14 @@ class ViteTest extends TestCase {
 		expect( 'wp_enqueue_script' )->once();
 
 		$this->vite->action();
-		$this->assertTrue( true );
+		$this->assertTrue( $this->vite->development() );
 	}
 
 	public function test_build_mode_action_has_no_enqueued_client(): void {
 		expect( 'wp_enqueue_script' )->never();
 
 		$this->vite->action();
-		$this->assertTrue( true );
+		$this->assertFalse( $this->vite->development() );
 	}
 
 	public function for_test_asset(): array {
