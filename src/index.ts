@@ -10,7 +10,7 @@ const defaultUrls = {
 	network: [],
 };
 
-export default function themeplate(): Plugin {
+export default function themeplate( path: string | readonly string[] = [] ): Plugin {
 	let resolvedConfig: ResolvedConfig;
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
@@ -84,6 +84,7 @@ export default function themeplate(): Plugin {
 				}
 			}
 
+			watcher.add( path );
 			watcher.on( 'add', reload )
 			watcher.on( 'change', reload )
 		},
