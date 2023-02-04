@@ -1,8 +1,8 @@
-import { mergeConfig, ResolvedConfig, ResolvedServerUrls } from 'vite';
-import { extname, relative, resolve } from 'path';
+import { mergeConfig, normalizePath } from 'vite';
+import { extname, relative, resolve, dirname } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
-import type { Plugin, UserConfig, ViteDevServer } from 'vite';
+import type { ConfigEnv, Plugin, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
 
 const configFile = 'vite.themeplate.json';
 const defaultUrls = {
@@ -26,12 +26,39 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
 	}
 
+	function resolveWpRoot() {
+		let directory = process.cwd();
+
+		const exists = ( directory: string ) => {
+			return existsSync( resolve( directory, 'wp-config.php' ) );
+		}
+
+		while ( dirname( directory ) !== directory && ! exists( directory ) ) {
+			directory = dirname( directory );
+		}
+
+		if ( exists( directory ) ) {
+			return `/${ normalizePath( relative( directory, '' ) ) }/`;
+		}
+
+		return '/';
+	}
+
+	function resolveBase( mode: string, config: UserConfig ) {
+		if ( 'development' === mode ) {
+			return '/';
+		}
+
+		return resolveWpRoot() + ( config.build?.outDir ?? 'dist' );
+	}
+
 	return {
 		name: 'vite-plugin-themeplate',
 		enforce: 'post',
 
-		config( config: UserConfig ) {
+		config( config: UserConfig, env: ConfigEnv ) {
 			return mergeConfig( config, {
+				base: resolveBase( env.mode, config ),
 				build: {
 					manifest: true,
 				},
