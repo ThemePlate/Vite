@@ -10,6 +10,7 @@
 namespace ThemePlate;
 
 use ThemePlate\Enqueue\CustomData;
+use ThemePlate\Resource\Handler;
 
 class Vite {
 
@@ -17,6 +18,7 @@ class Vite {
 	protected array $assets;
 	protected array $config;
 	protected CustomData $custom_data;
+	protected Handler $res_handler;
 
 	public const CLIENT = '@vite/client';
 	public const CONFIG = 'vite.themeplate.json';
@@ -35,6 +37,7 @@ class Vite {
 
 		$this->public_base = trailingslashit( $public_base );
 		$this->custom_data = new CustomData();
+		$this->res_handler = new Handler();
 
 		$this->init( trailingslashit( $project_root ) );
 
@@ -104,6 +107,8 @@ class Vite {
 		}
 
 		$this->custom_data->action();
+		$this->res_handler->init();
+		add_action( 'wp_head', array( $this->res_handler, 'action' ) );
 
 	}
 
@@ -141,6 +146,7 @@ class Vite {
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_style( $handle, $srcpath, $deps, null, $media );
+		$this->res_handler->style( $handle, 'preload' );
 
 		return $handle;
 
@@ -159,10 +165,10 @@ class Vite {
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_script( $handle, $srcpath, $deps, null, $in_footer );
 		$this->custom_data->add( 'script', $handle, array( 'type' => 'module' ) );
+		$this->res_handler->script( $handle, 'modulepreload' );
 
 		return $handle;
 
 	}
 
 }
-

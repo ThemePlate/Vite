@@ -33,18 +33,20 @@ class ViteTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function test_dev_mode_action_has_enqueued_client(): void {
+	public function test_dev_mode_action_has_wanted_actions(): void {
 		expect( 'wp_enqueue_script' )->once();
 
 		$this->vite->action();
 		$this->assertTrue( $this->vite->development() );
+		$this->assertSame( 10, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
-	public function test_build_mode_action_has_no_enqueued_client(): void {
+	public function test_build_mode_action_has_wanted_actions(): void {
 		expect( 'wp_enqueue_script' )->never();
 
 		$this->vite->action();
 		$this->assertFalse( $this->vite->development() );
+		$this->assertSame( 10, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
 	public function for_test_asset(): array {
