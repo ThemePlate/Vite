@@ -106,4 +106,21 @@ class ViteTest extends TestCase {
 			$this->assertSame( $slashed . $entry, $path );
 		}
 	}
+
+	public function test_build_mode_enqueue_entry_chunk_with_imports_and_css(): void {
+		expect( 'wp_register_script' )->twice();
+		expect( 'wp_enqueue_script' )->once();
+		expect( 'wp_enqueue_style' )->once();
+
+		$this->vite->script( '../src/main.js' );
+		$this->assertTrue( true );
+	}
+
+	public function test_build_mode_register_only_non_entry_chunk(): void {
+		expect( 'wp_register_script' )->once();
+		expect( 'wp_enqueue_script' )->never();
+
+		$this->vite->script( '../src/views/foo.js' );
+		$this->assertTrue( true );
+	}
 }

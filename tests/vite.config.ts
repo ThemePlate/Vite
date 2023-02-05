@@ -12,6 +12,7 @@ export default defineConfig( {
 			input: [
 				'src/main.css',
 				'src/main.js',
+				'src/sub.js',
 			],
 		},
 	},

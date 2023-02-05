@@ -163,11 +163,29 @@ class Vite {
 		$handle  = md5( $srcpath );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_script( $handle, $srcpath, $deps, null, $in_footer );
+		wp_register_script( $handle, $srcpath, $deps, null, $in_footer );
 		$this->custom_data->add( 'script', $handle, array( 'type' => 'module' ) );
 		$this->res_handler->script( $handle, 'modulepreload' );
+		$this->chunk( $src, $handle );
+
+		if ( $this->asset( $src )['isEntry'] ?? false ) {
+			wp_enqueue_script( $handle );
+		}
 
 		return $handle;
+
+	}
+
+
+	protected function chunk( string $src, string $entry ): void {
+
+		foreach ( $this->asset( $src )['imports'] ?? array() as $import ) {
+			$this->script( $import, array( $entry ) );
+		}
+
+		foreach ( $this->asset( $src )['css'] ?? array() as $import ) {
+			$this->style( $this->outpath( $import ) );
+		}
 
 	}
 
