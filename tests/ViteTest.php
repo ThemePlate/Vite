@@ -38,7 +38,7 @@ class ViteTest extends TestCase {
 
 		$this->vite->action();
 		$this->assertTrue( $this->vite->development() );
-		$this->assertSame( 10, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
+		$this->assertSame( 2, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
 	public function test_build_mode_action_has_wanted_actions(): void {
@@ -46,7 +46,7 @@ class ViteTest extends TestCase {
 
 		$this->vite->action();
 		$this->assertFalse( $this->vite->development() );
-		$this->assertSame( 10, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
+		$this->assertSame( 2, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
 	public function for_test_asset(): array {

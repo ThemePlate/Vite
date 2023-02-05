@@ -108,7 +108,7 @@ class Vite {
 
 		$this->custom_data->action();
 		$this->res_handler->init();
-		add_action( 'wp_head', array( $this->res_handler, 'action' ) );
+		add_action( 'wp_head', array( $this->res_handler, 'action' ), 2 );
 
 	}
 
