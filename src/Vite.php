@@ -168,7 +168,7 @@ class Vite {
 		$this->res_handler->script( $handle, 'modulepreload' );
 		$this->chunk( $src, $handle );
 
-		if ( $this->asset( $src )['isEntry'] ?? false ) {
+		if ( $this->development() || ( $this->asset( $src )['isEntry'] ?? false ) ) {
 			wp_enqueue_script( $handle );
 		}
 
