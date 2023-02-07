@@ -104,6 +104,7 @@ class Vite {
 			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_script( self::CLIENT, $this->public_base . self::CLIENT, array(), null, false );
 			$this->custom_data->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
+			$this->res_handler->script( self::CLIENT, 'modulepreload' );
 		}
 
 		$this->custom_data->action();
