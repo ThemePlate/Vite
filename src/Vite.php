@@ -30,6 +30,7 @@ class Vite {
 			'local'   => array(),
 			'network' => array(),
 		),
+		'entries' => array(),
 	);
 
 
@@ -169,7 +170,7 @@ class Vite {
 		$this->res_handler->script( $handle, 'modulepreload' );
 		$this->chunk( $src, $handle );
 
-		if ( $this->development() || ( $this->asset( $src )['isEntry'] ?? false ) ) {
+		if ( in_array( $src, $this->config['entries'], true ) ) {
 			wp_enqueue_script( $handle );
 		}
 

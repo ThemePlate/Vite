@@ -127,7 +127,7 @@ class ViteTest extends TestCase {
 
 	public function test_dev_mode_register_and_enqueue_chunks(): void {
 		expect( 'wp_register_script' )->once();
-		expect( 'wp_enqueue_script' )->once();
+		expect( 'wp_enqueue_script' )->never();
 
 		$this->vite->script( '../src/views/foo.js' );
 		$this->assertTrue( true );
