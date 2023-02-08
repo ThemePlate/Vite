@@ -15,12 +15,14 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
 		const file = resolve( resolvedConfig.root, configFile );
+		const entries = resolvedConfig.build.rollupOptions.input;
 		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
 		const data = {
 			outDir,
 			isBuild,
 			urls,
+			entries,
 		};
 
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
