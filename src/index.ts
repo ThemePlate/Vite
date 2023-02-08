@@ -3,6 +3,7 @@ import { extname, relative, resolve, dirname } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { ConfigEnv, Plugin, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
+import type { InputOption } from 'rollup';
 
 const configFile = 'vite.themeplate.json';
 const defaultUrls = {
@@ -15,7 +16,7 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
 		const file = resolve( resolvedConfig.root, configFile );
-		const entries = resolvedConfig.build.rollupOptions.input;
+		const entries = normalizeEntries( resolvedConfig.build.rollupOptions.input! );
 		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
 		const data = {
@@ -24,6 +25,12 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 			urls,
 			entries,
 		};
+
+		function normalizeEntries( input: InputOption ): string[] {
+			const paths: string[] = Array.isArray( input ) ? input as string[] : [input as string];
+
+			return paths.map( path => relative( resolvedConfig.root, path ) ).map( normalizePath );
+		}
 
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
 	}
