@@ -29,7 +29,7 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 		function normalizeEntries( input: InputOption ): string[] {
 			const paths: string[] = Array.isArray( input ) ? input as string[] : [input as string];
 
-			return paths.map( path => relative( resolvedConfig.root, path ) ).map( normalizePath );
+			return [ ...new Set( paths.map( path => relative( resolvedConfig.root, path ) ).map( normalizePath ) ) ];
 		}
 
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
