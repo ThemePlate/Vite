@@ -2,6 +2,9 @@
 
 ## Usage
 
+`composer require themeplate/vite`
+
+### functions.php
 ```php
 use ThemePlate\Vite;
 
@@ -13,7 +16,9 @@ add_action( 'wp_enqueue_scripts', function() {
 	$vite->action();
 } );
 ```
+`npm install vite-plugin-themeplate`
 
+### vite.config.js
 ```js
 import { defineConfig } from 'vite';
 import themeplate from 'vite-plugin-themeplate';
@@ -32,3 +37,13 @@ export default defineConfig( {
 	},
 } );
 ```
+#### Optional Parameters
+```js
+...
+const watchPath = '../../plugins/custom-plugin';
+const customBanner = '/*! Custom Theme v1.0 */';
+
+themeplate( watchPath, customBanner );
+...
+```
+> *Watch paths are relative to root and only for PHP files changes

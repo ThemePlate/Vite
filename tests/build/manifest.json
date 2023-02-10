@@ -3,6 +3,9 @@
     "file": "assets/main-74d94aed.css",
     "src": "../src/main.css"
   },
+  "_shared-d0876a44.js": {
+    "file": "assets/shared-d0876a44.js"
+  },
   "../src/sub.js": {
     "file": "assets/sub-ce2bb6ac.js",
     "src": "../src/sub.js",
@@ -15,9 +18,6 @@
     "file": "assets/foo-d9b40e50.js",
     "src": "../src/views/foo.js",
     "isDynamicEntry": true
-  },
-  "_shared-d0876a44.js": {
-    "file": "assets/shared-d0876a44.js"
   },
   "../src/main.js": {
     "file": "assets/main-32b55ff9.js",
