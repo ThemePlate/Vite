@@ -22,10 +22,17 @@ class ViteTest extends TestCase {
 		parent::setUp();
 		Monkey\setUp();
 
-		$name = explode( '_', $this->getName() );
-
+		$name = explode( '_', $this->getName( false ), 3 );
 		// $name[1] is going to be 'dev' or 'build'
-		$this->vite = new Vite( __DIR__ . DIRECTORY_SEPARATOR . $name[1], self::BASE_URL );
+		$root = __DIR__ . DIRECTORY_SEPARATOR . $name[1];
+		$base = self::BASE_URL;
+
+		if ( 'maybe_banner' === $name[2] ) {
+			$root .= '-banner';
+			$base  = $root;
+		}
+
+		$this->vite = new Vite( $root, $base );
 	}
 
 	protected function tearDown(): void {
@@ -139,5 +146,37 @@ class ViteTest extends TestCase {
 
 		$this->vite->script( '../src/views/foo.js' );
 		$this->assertTrue( true );
+	}
+
+	public function for_build_banner_possibly(): array {
+		return array(
+			'with a css entry' => array(
+				'../src/main.css',
+				true,
+			),
+			'with a js entry'  => array(
+				'../src/sub.js',
+				true,
+			),
+			'with a non entry' => array(
+				'../src/shared.js',
+				false,
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider for_build_banner_possibly
+	 */
+	public function test_build_maybe_banner( string $entry, bool $has_banner ): void {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$content  = file_get_contents( $this->vite->path( $entry ) );
+		$position = strpos( $content, '/*! ThemePlate Vite' );
+
+		if ( $has_banner ) {
+			$this->assertSame( 0, $position );
+		} else {
+			$this->assertFalse( $position );
+		}
 	}
 }

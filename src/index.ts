@@ -3,7 +3,7 @@ import { extname, relative, resolve, dirname } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 
 import type { ConfigEnv, Plugin, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
-import type { InputOption } from 'rollup';
+import type { InputOption, NormalizedOutputOptions, OutputBundle } from 'rollup';
 
 const configFile = 'vite.themeplate.json';
 const defaultUrls = {
@@ -11,7 +11,7 @@ const defaultUrls = {
 	network: [],
 };
 
-export default function themeplate( path: string | readonly string[] = [] ): Plugin {
+export default function themeplate( path: string | readonly string[] = [], banner?: string ): Plugin {
 	let resolvedConfig: ResolvedConfig;
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
@@ -78,8 +78,25 @@ export default function themeplate( path: string | readonly string[] = [] ): Plu
 			resolvedConfig = config;
 		},
 
-		writeBundle() {
+		writeBundle( options: NormalizedOutputOptions, bundle: OutputBundle ) {
 			writeConfig();
+
+			if ( undefined === banner ) {
+				return;
+			}
+
+			for ( const [ fileName, output ] of Object.entries( bundle ) ) {
+				if (
+					( 'chunk' === output.type && output.isEntry ) ||
+					( 'asset' === output.type && '.css' === extname( fileName ) )
+				) {
+					const { root, build: { outDir } } = resolvedConfig;
+					const file = resolve( root, outDir, fileName );
+					const data = 'chunk' === output.type ? output.code : output.source;
+
+					writeFileSync( file, `${ banner }${ data }` );
+				}
+			}
 		},
 
 		configureServer( server: ViteDevServer ) {
