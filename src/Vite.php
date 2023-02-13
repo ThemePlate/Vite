@@ -104,7 +104,7 @@ class Vite {
 		if ( $this->development() ) {
 			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_script( self::CLIENT, $this->public_base . self::CLIENT, array(), null, false );
-			$this->custom_data->add( 'script', self::CLIENT, array( 'type' => 'module' ) );
+			$this->custom_data->script( self::CLIENT, array( 'type' => 'module' ) );
 			$this->res_handler->script( self::CLIENT, 'modulepreload' );
 		}
 
@@ -165,7 +165,7 @@ class Vite {
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_register_script( $handle, $srcpath, $deps, null, $in_footer );
-		$this->custom_data->add( 'script', $handle, array( 'type' => 'module' ) );
+		$this->custom_data->script( $handle, array( 'type' => 'module' ) );
 		$this->res_handler->script( $handle, 'modulepreload' );
 		$this->chunk( $src, $handle );
 

@@ -21,7 +21,7 @@
 	"require": {
 		"php": "^7.4|^8.0",
 		"ext-json": "*",
-		"themeplate/enqueue": "^2.2",
+		"themeplate/enqueue": "^2.4",
 		"themeplate/resource": "^2.1"
 	},
 	"require-dev": {
