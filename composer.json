@@ -22,7 +22,7 @@
 		"php": "^7.4|^8.0",
 		"ext-json": "*",
 		"themeplate/enqueue": "^2.2",
-		"themeplate/resource": "^2.0"
+		"themeplate/resource": "^2.1"
 	},
 	"require-dev": {
 		"themeplate/tester": "^2.0"
