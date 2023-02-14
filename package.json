@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-themeplate",
-	"title": "ThemePlate Vite",
-  "version": "1.0.0",
+  "title": "ThemePlate Vite",
+  "version": "1.1.0",
   "description": "Straight-forward Vite integration for WordPress",
   "keywords": [
     "vite",
