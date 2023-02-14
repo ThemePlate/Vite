@@ -96,7 +96,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 					const file = resolve( root, outDir, fileName );
 					const data = 'chunk' === output.type ? output.code : output.source;
 
-					writeFileSync( file, `${ banner }${ data }` );
+					writeFileSync( file, `${ banner }\n${ data }` );
 				}
 			}
 		},
