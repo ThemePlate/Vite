@@ -87,6 +87,20 @@ export default function themeplate( path: string | readonly string[] = [], banne
 				return;
 			}
 
+			const ensure = ( comment: string ) => {
+				comment = comment.trim();
+
+				if ( ! comment.startsWith( '/*!' ) ) {
+					comment = '/*! ' + comment;
+				}
+
+				if ( ! comment.endsWith( '*/' ) ) {
+					comment += ' */';
+				}
+
+				return comment;
+			}
+
 			for ( const [ fileName, output ] of Object.entries( bundle ) ) {
 				if (
 					( 'chunk' === output.type && output.isEntry ) ||
@@ -96,7 +110,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 					const file = resolve( root, outDir, fileName );
 					const data = 'chunk' === output.type ? output.code : output.source;
 
-					writeFileSync( file, `${ banner }\n${ data }` );
+					writeFileSync( file, `${ ensure( banner ) }\n${ data }` );
 				}
 			}
 		},

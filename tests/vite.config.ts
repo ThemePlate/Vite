@@ -5,10 +5,11 @@ const withBanner = 'true' === process.env.BANNER;
 
 const pkg = require( '../package.json' );
 const banner = withBanner ? [
-	`/*! ${pkg.title} ${pkg.version}`,
+	// `/*! ${pkg.title} ${pkg.version}`,
+	` ${pkg.title} ${pkg.version}`,
 	` * Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}`,
 	` * Licensed under ${pkg.license}.`,
-	' */',
+	// ' */',
 ].join( '\n' ) : undefined;
 const directory = 'production' === process.env.NODE_ENV ? 'build' : 'dev';
 
