@@ -127,6 +127,17 @@ class Vite {
 	}
 
 
+	public function name( string $entry ): string {
+
+		if ( empty( $this->config['entryNames'] ) ) {
+			return '';
+		}
+
+		return array_search( $entry, $this->config['entryNames'], true ) ?? '';
+
+	}
+
+
 	public function asset( string $name ): array {
 
 		if ( $this->development() || ! isset( $this->assets[ $name ] ) ) {

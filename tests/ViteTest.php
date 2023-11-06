@@ -203,4 +203,28 @@ class ViteTest extends TestCase {
 			$this->assertEmpty( $this->vite->entry( $name ) );
 		}
 	}
+
+	public function for_test_name_entry(): array {
+		return array(
+			'with known asset'   => array(
+				'../src/main.css',
+				true,
+			),
+			'with unknown asset' => array(
+				'../src/test.css',
+				false,
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_build_name_entry( string $asset, bool $is_known ): void {
+		if ( $is_known ) {
+			$this->assertNotEmpty( $this->vite->name( $asset ) );
+		} else {
+			$this->assertEmpty( $this->vite->name( $asset ) );
+		}
+	}
 }
