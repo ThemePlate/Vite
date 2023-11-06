@@ -179,4 +179,28 @@ class ViteTest extends TestCase {
 			$this->assertFalse( $position );
 		}
 	}
+
+	public function for_test_entry_name(): array {
+		return array(
+			'with known name'   => array(
+				'sub',
+				true,
+			),
+			'with unknown name' => array(
+				'shared',
+				false,
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 */
+	public function test_build_entry_name( string $name, bool $is_known ): void {
+		if ( $is_known ) {
+			$this->assertNotEmpty( $this->vite->entry( $name ) );
+		} else {
+			$this->assertEmpty( $this->vite->entry( $name ) );
+		}
+	}
 }

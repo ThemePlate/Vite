@@ -31,6 +31,8 @@ class Vite {
 			'network' => array(),
 		),
 		'entries' => array(),
+
+		'entryNames' => array(),
 	);
 
 
@@ -110,6 +112,17 @@ class Vite {
 
 		$this->custom_data->action();
 		add_action( 'wp_head', array( $this->res_handler, 'action' ), 2 );
+
+	}
+
+
+	public function entry( string $name ): string {
+
+		if ( empty( $this->config['entryNames'] ) || ! isset( $this->config['entryNames'][ $name ] ) ) {
+			return '';
+		}
+
+		return $this->config['entryNames'][ $name ];
 
 	}
 
