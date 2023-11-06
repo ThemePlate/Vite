@@ -163,14 +163,40 @@ class Vite {
 
 	}
 
+	protected function handle_path_entry( string $src ): array {
+
+		$entry = $this->entry( $src );
+
+		// Provided $src is an entry name
+		if ( '' !== $entry ) {
+			$handle = $src;
+			$src    = $entry;
+		}
+
+		$path = $this->path( $src );
+
+		// Provided $src is an entry point
+		if ( '' === $entry ) {
+			$entry  = $src;
+			$handle = $this->name( $src );
+
+			// No entry name found
+			if ( '' === $handle ) {
+				$handle = md5( $src );
+			}
+		}
+
+		return array( $handle, $path, $entry );
+
+	}
+
 
 	public function style( string $src, array $deps = array(), string $media = 'all' ): string {
 
-		$srcpath = $this->path( $src );
-		$handle  = md5( $srcpath );
+		[ $handle, $path ] = $this->handle_path_entry( $src );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_style( $handle, $srcpath, $deps, null, $media );
+		wp_enqueue_style( $handle, $path, $deps, null, $media );
 		$this->res_handler->style( $handle, 'preload' );
 
 		return $handle;
@@ -184,16 +210,15 @@ class Vite {
 			$deps[] = self::CLIENT;
 		}
 
-		$srcpath = $this->path( $src );
-		$handle  = md5( $srcpath );
+		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_register_script( $handle, $srcpath, $deps, null, $in_footer );
+		wp_register_script( $handle, $path, $deps, null, $in_footer );
 		$this->custom_data->script( $handle, array( 'type' => 'module' ) );
 		$this->res_handler->script( $handle, 'modulepreload' );
-		$this->chunk( $src, $handle );
+		$this->chunk( $entry, $handle );
 
-		if ( in_array( $src, $this->config['entries'], true ) ) {
+		if ( in_array( $entry, $this->config['entries'], true ) ) {
 			wp_enqueue_script( $handle );
 		}
 
