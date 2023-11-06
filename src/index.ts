@@ -16,6 +16,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
 		const file = resolve( resolvedConfig.root, configFile );
+		const entryNames = normalizeEntryNames( resolvedConfig.build.rollupOptions.input! );
 		const entries = normalizeEntries( resolvedConfig.build.rollupOptions.input! );
 		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
@@ -23,11 +24,23 @@ export default function themeplate( path: string | readonly string[] = [], banne
 			outDir,
 			isBuild,
 			urls,
+			entryNames,
 			entries,
 		};
 
+		function normalizeEntryNames( input: InputOption ): { [ name: string ]: string } {
+			if ( typeof resolvedConfig.build.rollupOptions.input !== 'object' ) {
+				return {};
+			}
+
+			return Object.entries( input ).reduce( ( acc: { [ name: string ]: string }, [ key, value ] ) => {
+					acc[ key ] = normalizePath( relative( resolvedConfig.root, value ) );
+					return acc;
+				}, {} );
+		}
+
 		function normalizeEntries( input: InputOption ): string[] {
-			const paths: string[] = Array.isArray( input ) ? input as string[] : [input as string];
+			const paths: string[] = Array.isArray( input ) ? input as string[] : ( typeof input === 'object' ? Object.values( input ) : [input as string] );
 
 			return [ ...new Set( paths.filter( path => path ).map( path => relative( resolvedConfig.root, path ) ).map( normalizePath ) ) ];
 		}

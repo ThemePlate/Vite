@@ -20,7 +20,7 @@
     "isDynamicEntry": true
   },
   "../src/main.js": {
-    "file": "assets/main-32b55ff9.js",
+    "file": "assets/script-32b55ff9.js",
     "src": "../src/main.js",
     "isEntry": true,
     "imports": [

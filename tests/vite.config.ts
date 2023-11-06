@@ -21,11 +21,11 @@ export default defineConfig( {
 	build: {
 		outDir: '',
 		rollupOptions: {
-			input: [
-				'src/main.css',
-				'src/main.js',
-				'src/sub.js',
-			],
+			input: {
+				'style': 'src/main.css',
+				'script': 'src/main.js',
+				'sub': 'src/sub.js',
+			},
 		},
 	},
 } );
