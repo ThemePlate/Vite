@@ -1,36 +1,37 @@
 {
   "../src/main.css": {
     "file": "assets/main-74d94aed.css",
+    "isEntry": true,
     "src": "../src/main.css"
   },
-  "_shared-d0876a44.js": {
-    "file": "assets/shared-d0876a44.js"
-  },
-  "../src/sub.js": {
-    "file": "assets/sub-ce2bb6ac.js",
-    "src": "../src/sub.js",
-    "isEntry": true,
-    "imports": [
-      "_shared-d0876a44.js"
-    ]
-  },
-  "../src/views/foo.js": {
-    "file": "assets/foo-d9b40e50.js",
-    "src": "../src/views/foo.js",
-    "isDynamicEntry": true
-  },
   "../src/main.js": {
-    "file": "assets/script-32b55ff9.js",
-    "src": "../src/main.js",
-    "isEntry": true,
-    "imports": [
-      "_shared-d0876a44.js"
+    "css": [
+      "assets/main-74d94aed.css"
     ],
     "dynamicImports": [
       "../src/views/foo.js"
     ],
-    "css": [
-      "assets/main-74d94aed.css"
-    ]
+    "file": "assets/script-e887d4c7.js",
+    "imports": [
+      "_shared-d0876a44.js"
+    ],
+    "isEntry": true,
+    "src": "../src/main.js"
+  },
+  "../src/sub.js": {
+    "file": "assets/sub-ce2bb6ac.js",
+    "imports": [
+      "_shared-d0876a44.js"
+    ],
+    "isEntry": true,
+    "src": "../src/sub.js"
+  },
+  "../src/views/foo.js": {
+    "file": "assets/foo-d9b40e50.js",
+    "isDynamicEntry": true,
+    "src": "../src/views/foo.js"
+  },
+  "_shared-d0876a44.js": {
+    "file": "assets/shared-d0876a44.js"
   }
 }

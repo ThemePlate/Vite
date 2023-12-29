@@ -190,6 +190,10 @@ class ViteTest extends TestCase {
 				'shared',
 				false,
 			),
+			'with bad name' => array(
+				'',
+				false,
+			),
 		);
 	}
 
@@ -209,6 +213,10 @@ class ViteTest extends TestCase {
 			'with known asset'   => array(
 				'../src/main.css',
 				true,
+			),
+			'with bad asset' => array(
+				'../src/bad.css',
+				false,
 			),
 			'with unknown asset' => array(
 				'../src/test.css',
