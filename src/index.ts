@@ -90,6 +90,10 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		},
 
 		configResolved( config: ResolvedConfig ) {
+			if ( undefined === config.build.rollupOptions.input ) {
+				throw new Error( 'You must supply options.input to rollup' );
+			}
+
 			resolvedConfig = config;
 		},
 
