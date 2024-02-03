@@ -92,7 +92,14 @@ class Vite {
 	protected function init( string $project_root ): void {
 
 		$this->config = $this->parse( $project_root . self::CONFIG, self::DEFAULTS );
-		$this->assets = $this->parse( $project_root . $this->outpath( 'manifest.json' ) );
+
+		$manifest = 'manifest.json';
+
+		if ( file_exists( $project_root . $this->outpath( '.vite/' . $manifest ) ) ) {
+			$manifest = '.vite/' . $manifest;
+		}
+
+		$this->assets = $this->parse( $project_root . $this->outpath( $manifest ) );
 
 		if ( $this->development() ) {
 			$this->public_base = trailingslashit( $this->config['urls']['local'][0] );

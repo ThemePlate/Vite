@@ -11,7 +11,7 @@ const defaultUrls = {
 	network: [],
 };
 
-export default function themeplate( path: string | readonly string[] = [], banner?: string ): Plugin {
+export default function themeplate( path: string | readonly string[] = [], banner?: string ) {
 	let resolvedConfig: ResolvedConfig;
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
