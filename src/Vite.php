@@ -203,6 +203,8 @@ class Vite {
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
 		if ( ! is_array( $args ) ) {
+			_deprecated_argument( __METHOD__, '1.4.0', 'Pass the `$media` inside an array.' );
+
 			$args = array(
 				'media' => $args,
 			);
@@ -238,6 +240,8 @@ class Vite {
 		}
 
 		if ( ! is_array( $args ) ) {
+			_deprecated_argument( __METHOD__, '1.4.0', 'Pass the `$in_footer` inside an array.' );
+
 			$args = array(
 				'in_footer' => (bool) $args,
 			);
