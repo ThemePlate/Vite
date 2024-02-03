@@ -12,7 +12,8 @@
 	"prefer-stable": true,
 	"config": {
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
 		},
 		"optimize-autoloader": true,
 		"preferred-install": "dist",
@@ -22,7 +23,7 @@
 		"php": "^7.4|^8.0",
 		"ext-json": "*",
 		"themeplate/enqueue": "^2.4",
-		"themeplate/resource": "^2.1"
+		"themeplate/resource": "^2.3"
 	},
 	"require-dev": {
 		"themeplate/tester": "^2.0"

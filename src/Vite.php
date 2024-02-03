@@ -227,12 +227,20 @@ class Vite {
 			);
 		}
 
+		$args = array_merge(
+			array(
+				'loader'   => array(),
+				'resource' => array(),
+			),
+			$args
+		);
+
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_register_script( $handle, $path, $deps, null, $args );
-		$this->custom_data->script( $handle, array( 'type' => 'module' ) );
-		$this->res_handler->script( $handle, 'modulepreload' );
+		$this->custom_data->script( $handle, array_merge( array( 'type' => 'module' ), $args['loader'] ) );
+		$this->res_handler->script( $handle, 'modulepreload', $args['resource'] );
 		$this->chunk( $entry, $handle );
 
 		if ( in_array( $entry, $this->config['entries'], true ) ) {
