@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-themeplate",
   "title": "ThemePlate Vite",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Straight-forward Vite integration for WordPress",
   "keywords": [
     "vite",
@@ -31,7 +31,7 @@
     "vite": "^5.0.11"
   },
   "peerDependencies": {
-    "vite": "^4.0.4|^5.0.11"
+    "vite": "^4.0.4 || ^5.0.11"
   },
   "scripts": {
     "build": "tsc",
