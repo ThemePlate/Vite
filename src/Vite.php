@@ -215,16 +215,22 @@ class Vite {
 	}
 
 
-	public function script( string $src, array $deps = array(), bool $in_footer = false ): string {
+	public function script( string $src, array $deps = array(), $args = array() ): string {
 
 		if ( $this->development() ) {
 			$deps[] = self::CLIENT;
 		}
 
+		if ( ! is_array( $args ) ) {
+			$args = array(
+				'in_footer' => (bool) $args,
+			);
+		}
+
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_register_script( $handle, $path, $deps, null, $in_footer );
+		wp_register_script( $handle, $path, $deps, null, $args );
 		$this->custom_data->script( $handle, array( 'type' => 'module' ) );
 		$this->res_handler->script( $handle, 'modulepreload' );
 		$this->chunk( $entry, $handle );
