@@ -198,13 +198,28 @@ class Vite {
 	}
 
 
-	public function style( string $src, array $deps = array(), string $media = 'all' ): string {
+	public function style( string $src, array $deps = array(), $args = array() ): string {
 
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
+		if ( ! is_array( $args ) ) {
+			$args = array(
+				'media' => $args,
+			);
+		}
+
+		$args = array_merge(
+			array(
+				'loader'   => array(),
+				'resource' => array(),
+			),
+			$args
+		);
+
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_register_style( $handle, $path, $deps, null, $media );
-		$this->res_handler->style( $handle, 'preload' );
+		wp_register_style( $handle, $path, $deps, null, $args['media'] );
+		$this->custom_data->style( $handle, $args['loader'] );
+		$this->res_handler->style( $handle, 'preload', $args['resource'] );
 
 		if ( in_array( $entry, $this->config['entries'], true ) ) {
 			wp_enqueue_style( $handle );
