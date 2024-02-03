@@ -210,6 +210,7 @@ class Vite {
 
 		$args = array_merge(
 			array(
+				'media'    => 'all',
 				'loader'   => array(),
 				'resource' => array(),
 			),
@@ -244,8 +245,9 @@ class Vite {
 
 		$args = array_merge(
 			array(
-				'loader'   => array(),
-				'resource' => array(),
+				'in_footer' => false,
+				'loader'    => array(),
+				'resource'  => array(),
 			),
 			$args
 		);
