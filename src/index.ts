@@ -76,7 +76,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 
 	return {
 		name: 'vite-plugin-themeplate',
-		enforce: 'post',
+		enforce: 'post' as 'post' | 'pre' | undefined,
 
 		config( config: UserConfig, env: ConfigEnv ) {
 			const base = config.base ?? resolveBase( env.mode, config );
