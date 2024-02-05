@@ -140,7 +140,7 @@ class Vite {
 			return '';
 		}
 
-		return array_search( $entry, $this->config['entryNames'], true ) ?? '';
+		return array_search( $entry, $this->config['entryNames'], true ) ?: '';
 
 	}
 
