@@ -15,6 +15,7 @@ use ThemePlate\Resource\Handler;
 class Vite {
 
 	protected string $public_base;
+	protected string $project_root;
 	protected array $assets;
 	protected array $config;
 	protected CustomData $custom_data;
@@ -105,6 +106,8 @@ class Vite {
 			$this->public_base = trailingslashit( $this->config['urls']['local'][0] );
 		}
 
+		$this->project_root = $project_root;
+
 	}
 
 
@@ -156,7 +159,7 @@ class Vite {
 	}
 
 
-	public function path( string $name ): string {
+	public function path( string $name, bool $uri = true ): string {
 
 		if ( ! $this->development() ) {
 			$asset = $this->asset( $name );
@@ -166,7 +169,7 @@ class Vite {
 			}
 		}
 
-		return $this->public_base . $name;
+		return ( $uri ? $this->public_base : $this->project_root ) . $name;
 
 	}
 

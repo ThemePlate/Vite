@@ -15,6 +15,7 @@ use function Brain\Monkey\Functions\expect;
 class ViteTest extends TestCase {
 	protected Process $process;
 	protected Vite $vite;
+	protected string $root;
 
 	public const BASE_URL = 'http://themeplate.local';
 
@@ -33,6 +34,7 @@ class ViteTest extends TestCase {
 		}
 
 		$this->vite = new Vite( $root, $base );
+		$this->root = $root;
 	}
 
 	protected function tearDown(): void {
@@ -106,6 +108,32 @@ class ViteTest extends TestCase {
 		$this->assertSame( self::BASE_URL, $parse['scheme'] . '://' . $parse['host'] );
 
 		$slashed = trailingslashit( self::BASE_URL );
+
+		if ( $is_known ) {
+			$this->assertNotSame( $slashed . $entry, $path );
+		} else {
+			$this->assertSame( $slashed . $entry, $path );
+		}
+	}
+
+	/**
+	 * @dataProvider for_test_asset
+	 */
+	public function test_dev_non_uri_path( string $entry ): void {
+		$path  = $this->vite->path( $entry, false );
+
+		$slashed = trailingslashit( $this->root );
+
+		$this->assertSame( $slashed . $entry, $path );
+	}
+
+	/**
+	 * @dataProvider for_test_asset
+	 */
+	public function test_build_non_uri_path( string $entry, bool $is_known ): void {
+		$path  = $this->vite->path( $entry, false );
+
+		$slashed = trailingslashit( $this->root );
 
 		if ( $is_known ) {
 			$this->assertNotSame( $slashed . $entry, $path );
