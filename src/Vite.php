@@ -213,19 +213,14 @@ class Vite {
 			);
 		}
 
-		$args = array_merge(
-			array(
-				'media'    => 'all',
-				'loader'   => array(),
-				'resource' => array(),
-			),
-			$args
-		);
+		$media    = $args['media'] ?? 'all';
+		$loader   = $args['loader'] ?? array();
+		$resource = $args['resource'] ?? array();
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_register_style( $handle, $path, $deps, null, $args['media'] );
-		$this->custom_data->style( $handle, $args['loader'] );
-		$this->res_handler->style( $handle, 'preload', $args['resource'] );
+		wp_register_style( $handle, $path, $deps, null, $media );
+		$this->custom_data->style( $handle, $loader );
+		$this->res_handler->style( $handle, 'preload', $resource );
 
 		if ( in_array( $entry, $this->config['entries'], true ) ) {
 			wp_enqueue_style( $handle );
@@ -250,21 +245,30 @@ class Vite {
 			);
 		}
 
-		$args = array_merge(
-			array(
-				'in_footer' => false,
-				'loader'    => array(),
-				'resource'  => array(),
-			),
-			$args
-		);
+		$loader   = array();
+		$resource = array();
+
+		if ( isset( $args['loader'] ) ) {
+			$loader = array_merge(
+				array( 'type' => 'module' ),
+				$args['loader']
+			);
+
+			unset( $args['loader'] );
+		}
+
+		if ( isset( $args['resource'] ) ) {
+			$resource = $args['resource'];
+
+			unset( $args['resource'] );
+		}
 
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_register_script( $handle, $path, $deps, null, $args );
-		$this->custom_data->script( $handle, array_merge( array( 'type' => 'module' ), $args['loader'] ) );
-		$this->res_handler->script( $handle, 'modulepreload', $args['resource'] );
+		$this->custom_data->script( $handle, $loader );
+		$this->res_handler->script( $handle, 'modulepreload', $resource );
 		$this->chunk( $entry, $handle );
 
 		if ( in_array( $entry, $this->config['entries'], true ) ) {
