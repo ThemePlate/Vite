@@ -193,26 +193,14 @@ class Vite {
 
 	protected function handle_path_entry( string $src ): array {
 
-		$entry = $this->entry( $src );
+		$handle = $this->handle( $src );
+		$entry  = $this->entry( $src );
 
-		// Provided $src is an entry name
-		if ( '' !== $entry ) {
-			$handle = $src;
-			$src    = $entry;
+		if ( $handle !== $src ) {
+			$entry = $src;
 		}
 
-		$path = $this->path( $src );
-
-		// Provided $src is an entry point
-		if ( '' === $entry ) {
-			$entry  = $src;
-			$handle = $this->name( $src );
-
-			// No entry name found
-			if ( '' === $handle ) {
-				$handle = md5( $src );
-			}
-		}
+		$path = $this->path( $entry );
 
 		return array( $handle, $path, $entry );
 
