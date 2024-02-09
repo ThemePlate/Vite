@@ -29,7 +29,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		};
 
 		function normalizeEntryNames( input: InputOption ): { [ name: string ]: string } {
-			if ( typeof resolvedConfig.build.rollupOptions.input !== 'object' ) {
+			if ( typeof input !== 'object' || Array.isArray( input ) ) {
 				return {};
 			}
 
