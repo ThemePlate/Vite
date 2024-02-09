@@ -251,14 +251,11 @@ class Vite {
 			);
 		}
 
-		$loader   = array();
+		$loader   = array( 'type' => 'module' );
 		$resource = array();
 
 		if ( isset( $args['loader'] ) ) {
-			$loader = array_merge(
-				array( 'type' => 'module' ),
-				$args['loader']
-			);
+			$loader = array_merge( $args['loader'], $loader );
 
 			unset( $args['loader'] );
 		}
