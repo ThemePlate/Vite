@@ -279,4 +279,34 @@ class ViteTest extends TestCase {
 	public function test_unnamed_name_entry( string $asset ): void {
 		$this->assertEmpty( $this->vite->name( $asset ) );
 	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_build_handle( string $asset, bool $is_known ): void {
+		if ( $is_known ) {
+			$this->assertNotEmpty( $this->vite->handle( $asset ) );
+		} else {
+			$this->assertEmpty( $this->vite->handle( $asset ) );
+		}
+	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 */
+	public function test_unnamed_handle_random_strings( string $asset ): void {
+		$this->assertEmpty( $this->vite->handle( $asset ) );
+	}
+
+	/**
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_unnamed_handle_by_entry( string $asset, bool $is_known ): void {
+		if ( $is_known ) {
+			$this->assertNotEmpty( $this->vite->handle( $asset ) );
+		} else {
+			$this->assertEmpty( $this->vite->handle( $asset ) );
+		}
+	}
 }

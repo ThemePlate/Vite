@@ -173,6 +173,24 @@ class Vite {
 
 	}
 
+
+	public function handle( string $value ): string {
+
+		if ( '' !== $this->entry( $value ) ) {
+			return $value;
+		}
+
+		$name = $this->name( $value );
+
+		if ( '' !== $name ) {
+			return $name;
+		}
+
+		return empty( $this->asset( $value ) ) ? '' : md5( $value );
+
+	}
+
+
 	protected function handle_path_entry( string $src ): array {
 
 		$entry = $this->entry( $src );
