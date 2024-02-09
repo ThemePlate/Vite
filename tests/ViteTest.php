@@ -238,6 +238,13 @@ class ViteTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider for_test_entry_name
+	 */
+	public function test_unnamed_entry_name( string $name ): void {
+		$this->assertEmpty( $this->vite->entry( $name ) );
+	}
+
 	public function for_test_name_entry(): array {
 		return array(
 			'with known asset'   => array(
@@ -264,5 +271,12 @@ class ViteTest extends TestCase {
 		} else {
 			$this->assertEmpty( $this->vite->name( $asset ) );
 		}
+	}
+
+	/**
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_unnamed_name_entry( string $asset ): void {
+		$this->assertEmpty( $this->vite->name( $asset ) );
 	}
 }
