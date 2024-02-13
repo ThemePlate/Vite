@@ -48,8 +48,8 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
 	}
 
-	function resolveWpRoot() {
-		let directory = process.cwd();
+	function resolveWpRoot( configRoot: string ) {
+		let directory = resolve( process.cwd(), configRoot );
 
 		const exists = ( directory: string ) => {
 			return existsSync( resolve( directory, 'wp-config.php' ) );
@@ -60,7 +60,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		}
 
 		if ( exists( directory ) ) {
-			return `/${ normalizePath( relative( directory, '' ) ) }/`;
+			return `/${ normalizePath( relative( directory, configRoot ) ) }/`;
 		}
 
 		return '/';
@@ -71,7 +71,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 			return '/';
 		}
 
-		return resolveWpRoot() + ( config.build?.outDir ?? 'dist' );
+		return resolveWpRoot( config?.root ?? '' ) + ( config.build?.outDir ?? 'dist' );
 	}
 
 	return {
