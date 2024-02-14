@@ -227,10 +227,7 @@ class ViteTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 */
-	public function test_build_entry_name( string $name, bool $is_known ): void {
+	protected function do_assert_entry_name( string $name, bool $is_known ): void {
 		if ( $is_known ) {
 			$this->assertNotEmpty( $this->vite->entry( $name ) );
 		} else {
@@ -241,8 +238,22 @@ class ViteTest extends TestCase {
 	/**
 	 * @dataProvider for_test_entry_name
 	 */
+	public function test_build_entry_name( string $name, bool $is_known ): void {
+		$this->do_assert_entry_name( $name, $is_known );
+	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 */
+	public function test_dev_entry_name( string $name, bool $is_known ): void {
+		$this->do_assert_entry_name( $name, $is_known );
+	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 */
 	public function test_unnamed_entry_name( string $name ): void {
-		$this->assertEmpty( $this->vite->entry( $name ) );
+		$this->do_assert_entry_name( $name, false );
 	}
 
 	public function for_test_name_entry(): array {
@@ -262,10 +273,7 @@ class ViteTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider for_test_name_entry
-	 */
-	public function test_build_name_entry( string $asset, bool $is_known ): void {
+	protected function do_assert_name_entry( string $asset, bool $is_known ): void {
 		if ( $is_known ) {
 			$this->assertNotEmpty( $this->vite->name( $asset ) );
 		} else {
@@ -276,8 +284,30 @@ class ViteTest extends TestCase {
 	/**
 	 * @dataProvider for_test_name_entry
 	 */
+	public function test_build_name_entry( string $asset, bool $is_known ): void {
+		$this->do_assert_name_entry( $asset, $is_known );
+	}
+
+	/**
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_dev_name_entry( string $asset, bool $is_known ): void {
+		$this->do_assert_name_entry( $asset, $is_known );
+	}
+
+	/**
+	 * @dataProvider for_test_name_entry
+	 */
 	public function test_unnamed_name_entry( string $asset ): void {
-		$this->assertEmpty( $this->vite->name( $asset ) );
+		$this->do_assert_name_entry( $asset, false );
+	}
+
+	protected function do_assert_handle( string $asset, bool $is_known ): void {
+		if ( $is_known ) {
+			$this->assertNotEmpty( $this->vite->handle( $asset ) );
+		} else {
+			$this->assertEmpty( $this->vite->handle( $asset ) );
+		}
 	}
 
 	/**
@@ -285,28 +315,28 @@ class ViteTest extends TestCase {
 	 * @dataProvider for_test_name_entry
 	 */
 	public function test_build_handle( string $asset, bool $is_known ): void {
-		if ( $is_known ) {
-			$this->assertNotEmpty( $this->vite->handle( $asset ) );
-		} else {
-			$this->assertEmpty( $this->vite->handle( $asset ) );
-		}
+		$this->do_assert_handle( $asset, $is_known );
+	}
+
+	/**
+	 * @dataProvider for_test_entry_name
+	 * @dataProvider for_test_name_entry
+	 */
+	public function test_dev_handle( string $asset, bool $is_known ): void {
+		$this->do_assert_handle( $asset, $is_known );
 	}
 
 	/**
 	 * @dataProvider for_test_entry_name
 	 */
 	public function test_unnamed_handle_random_strings( string $asset ): void {
-		$this->assertEmpty( $this->vite->handle( $asset ) );
+		$this->do_assert_handle( $asset, false );
 	}
 
 	/**
 	 * @dataProvider for_test_name_entry
 	 */
 	public function test_unnamed_handle_by_entry( string $asset, bool $is_known ): void {
-		if ( $is_known ) {
-			$this->assertNotEmpty( $this->vite->handle( $asset ) );
-		} else {
-			$this->assertEmpty( $this->vite->handle( $asset ) );
-		}
+		$this->do_assert_handle( $asset, $is_known );
 	}
 }
