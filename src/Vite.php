@@ -285,6 +285,10 @@ class Vite {
 
 	protected function chunk( string $src ): void {
 
+		if ( $this->development() ) {
+			return;
+		}
+
 		foreach ( $this->asset( $src )['css'] ?? array() as $import ) {
 			$this->style( $this->outpath( $import ) );
 		}
