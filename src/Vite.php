@@ -272,7 +272,7 @@ class Vite {
 		wp_register_script( $handle, $path, $deps, null, $args );
 		$this->custom_data->script( $handle, $loader );
 		$this->res_handler->script( $handle, 'modulepreload', $resource );
-		$this->chunk( $entry, $handle );
+		$this->chunk( $entry );
 
 		if ( in_array( $entry, $this->config['entries'], true ) ) {
 			wp_enqueue_script( $handle );
@@ -283,11 +283,7 @@ class Vite {
 	}
 
 
-	protected function chunk( string $src, string $entry ): void {
-
-		foreach ( $this->asset( $src )['imports'] ?? array() as $import ) {
-			$this->script( $import, array( $entry ) );
-		}
+	protected function chunk( string $src ): void {
 
 		foreach ( $this->asset( $src )['css'] ?? array() as $import ) {
 			$this->style( $this->outpath( $import ) );
