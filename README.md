@@ -7,9 +7,9 @@
 ### functions.php
 
 ```php
-use ThemePlate\Vite;
+use ThemePlate\Vite\Project;
 
-$vite = new Vite( get_stylesheet_directory(), get_stylesheet_directory_uri() );
+$vite = new Project( get_stylesheet_directory(), get_stylesheet_directory_uri() );
 
 add_action( 'wp_enqueue_scripts', function() use ( $vite ) {
 	$vite->style( 'main-style' );

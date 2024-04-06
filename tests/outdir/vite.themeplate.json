@@ -1,0 +1,18 @@
+{
+  "outDir": "custom",
+  "isBuild": true,
+  "urls": {
+    "local": [],
+    "network": []
+  },
+  "entryNames": {
+    "style": "../src/main.css",
+    "script": "../src/main.js",
+    "sub": "../src/sub.js"
+  },
+  "entries": [
+    "../src/main.css",
+    "../src/main.js",
+    "../src/sub.js"
+  ]
+}

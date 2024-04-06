@@ -20,7 +20,7 @@
 		"sort-packages": true
 	},
 	"require": {
-		"php": "^7.4|^8.0",
+		"php": "^8.2",
 		"ext-json": "*",
 		"themeplate/enqueue": "^2.4",
 		"themeplate/resource": "^2.3"
@@ -30,7 +30,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"ThemePlate\\": "src"
+			"ThemePlate\\Vite\\": "src"
 		}
 	},
 	"autoload-dev": {

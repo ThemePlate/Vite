@@ -1,0 +1,37 @@
+{
+  "../src/main.css": {
+    "file": "assets/style-nNQz4JGO.css",
+    "isEntry": true,
+    "src": "../src/main.css"
+  },
+  "../src/main.js": {
+    "css": [
+      "assets/style-nNQz4JGO.css"
+    ],
+    "dynamicImports": [
+      "../src/views/foo.js"
+    ],
+    "file": "assets/script-2OiIQZET.js",
+    "imports": [
+      "_shared-wT3u9UKq.js"
+    ],
+    "isEntry": true,
+    "src": "../src/main.js"
+  },
+  "../src/sub.js": {
+    "file": "assets/sub-oqqdHPRx.js",
+    "imports": [
+      "_shared-wT3u9UKq.js"
+    ],
+    "isEntry": true,
+    "src": "../src/sub.js"
+  },
+  "../src/views/foo.js": {
+    "file": "assets/foo-3PuZ_W0Y.js",
+    "isDynamicEntry": true,
+    "src": "../src/views/foo.js"
+  },
+  "_shared-wT3u9UKq.js": {
+    "file": "assets/shared-wT3u9UKq.js"
+  }
+}
