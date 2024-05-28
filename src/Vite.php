@@ -20,6 +20,7 @@ class Vite {
 	protected array $config;
 	protected CustomData $custom_data;
 	protected Handler $res_handler;
+	protected string $handle_prefix = '';
 
 	public const CLIENT = '@vite/client';
 	public const CONFIG = 'vite.themeplate.json';
@@ -107,6 +108,13 @@ class Vite {
 		}
 
 		$this->project_root = $project_root;
+
+	}
+
+
+	public function prefix( string $handle ): void {
+
+		$this->handle_prefix = $handle;
 
 	}
 
@@ -200,6 +208,7 @@ class Vite {
 			$entry = $src;
 		}
 
+		$handle = $this->handle_prefix . $handle;
 		$path = $this->path( $entry );
 
 		return array( $handle, $path, $entry );
