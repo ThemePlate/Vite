@@ -152,7 +152,7 @@ class ViteTest extends TestCase {
 	}
 
 	public function test_build_mode_enqueue_entry_chunk_with_imports_and_css(): void {
-		expect( 'wp_register_script' )->twice();
+		expect( 'wp_register_script' )->once();
 		expect( 'wp_enqueue_script' )->once();
 		expect( 'wp_register_style' )->twice();
 		expect( 'wp_enqueue_style' )->once();
