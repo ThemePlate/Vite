@@ -143,9 +143,9 @@ export default function themeplate( path: string | readonly string[] = [], banne
 			}
 
 			process.on( 'exit', clean );
-			process.on( 'SIGINT', process.exit );
-			process.on( 'SIGTERM', process.exit );
-			process.on( 'SIGHUP', process.exit );
+			process.on( 'SIGINT', () => process.exit() );
+			process.on( 'SIGTERM', () => process.exit() );
+			process.on( 'SIGHUP', () => process.exit() );
 
 			httpServer?.once( 'listening', () => {
 				const checker = setInterval( () => {
