@@ -94,7 +94,7 @@ readonly class Project {
 
 		$path = $this->path( $entry );
 
-		return array( $handle, $path, $entry );
+		return array( $this->config->prefix() . $handle, $path, $entry );
 
 	}
 

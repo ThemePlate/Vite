@@ -54,6 +54,7 @@ readonly class Config {
 			return '';
 		}
 
+		// phpcs:ignore Universal.Operators.DisallowShortTernary
 		return array_search( $entry, $this->data['entryNames'], true ) ?: '';
 
 	}
@@ -72,6 +73,19 @@ readonly class Config {
 		}
 
 		return in_array( $value, $this->data['entries'], true ) ? md5( $value ) : '';
+
+	}
+
+
+	public function prefix( string $handle = null ): string {
+
+		static $value = '';
+
+		if ( null !== $handle ) {
+			$value = $handle;
+		}
+
+		return $value;
 
 	}
 

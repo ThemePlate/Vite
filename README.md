@@ -11,6 +11,8 @@ use ThemePlate\Vite\Project;
 
 $vite = new Project( get_stylesheet_directory(), get_stylesheet_directory_uri() );
 
+// $vite->config->prefix( 'custom-' );
+
 add_action( 'wp_enqueue_scripts', function() use ( $vite ) {
 	$vite->style( 'main-style' );
 	$vite->script( 'main-script' );
