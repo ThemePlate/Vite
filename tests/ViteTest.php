@@ -58,7 +58,7 @@ class ViteTest extends TestCase {
 		$this->assertSame( 2, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
-	public function for_test_asset(): array {
+	public static function for_test_asset(): array {
 		return array(
 			'with known asset'   => array(
 				'../src/main.css',
@@ -178,7 +178,7 @@ class ViteTest extends TestCase {
 		$this->assertTrue( true );
 	}
 
-	public function for_build_banner_possibly(): array {
+	public static function for_build_banner_possibly(): array {
 		return array(
 			'with a css entry' => array(
 				'../src/main.css',
@@ -210,7 +210,7 @@ class ViteTest extends TestCase {
 		}
 	}
 
-	public function for_test_entry_name(): array {
+	public static function for_test_entry_name(): array {
 		return array(
 			'with known name'   => array(
 				'sub',
@@ -256,7 +256,7 @@ class ViteTest extends TestCase {
 		$this->do_assert_entry_name( $name, false );
 	}
 
-	public function for_test_name_entry(): array {
+	public static function for_test_name_entry(): array {
 		return array(
 			'with known asset'   => array(
 				'../src/main.css',
