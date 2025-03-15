@@ -1,10 +1,2 @@
 /.vscode/
 /.idea/
-/.cache/
-/.phpunit.result.cache
-/vendor/
-/composer.lock
-/node_modules/
-/pnpm-lock.yaml
-/dist/
-/tests/**/assets/

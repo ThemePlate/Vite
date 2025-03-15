@@ -15,7 +15,7 @@ abstract class AbstractTest extends TestCase {
 	protected function rootDir(): string {
 		$name = explode( '_', $this->name( false ), 3 );
 		// $name[1] is going to be 'dev' or 'build'
-		$root = __DIR__ . DIRECTORY_SEPARATOR . $name[1];
+		$root = dirname( __DIR__, 2 ) . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . $name[1];
 
 		if ( 'maybe_banner' === $name[2] ) {
 			$root .= '-banner';
