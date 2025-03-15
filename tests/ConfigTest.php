@@ -17,7 +17,7 @@ class ConfigTest extends AbstractTest {
 		$this->config = new Config( $this->rootDir() );
 	}
 
-	public function for_test_entry_name(): array {
+	public static function for_test_entry_name(): array {
 		return array(
 			'with known name'   => array(
 				'sub',
@@ -63,7 +63,7 @@ class ConfigTest extends AbstractTest {
 		$this->do_assert_entry_name( $name, false );
 	}
 
-	public function for_test_name_entry(): array {
+	public static function for_test_name_entry(): array {
 		return array(
 			'with known asset'   => array(
 				'../src/main.css',

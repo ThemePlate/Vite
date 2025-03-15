@@ -13,7 +13,7 @@ abstract class AbstractTest extends TestCase {
 	public const BASE_URL = 'http://themeplate.local';
 
 	protected function rootDir(): string {
-		$name = explode( '_', $this->getName( false ), 3 );
+		$name = explode( '_', $this->name( false ), 3 );
 		// $name[1] is going to be 'dev' or 'build'
 		$root = __DIR__ . DIRECTORY_SEPARATOR . $name[1];
 

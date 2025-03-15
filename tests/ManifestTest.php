@@ -18,7 +18,7 @@ class ManifestTest extends AbstractTest {
 		$this->manifest = new Manifest( new Config( $this->rootDir() ) );
 	}
 
-	public function for_test_asset_path(): array {
+	public static function for_test_asset_path(): array {
 		return array(
 			'with known asset'   => array(
 				'../src/main.css',

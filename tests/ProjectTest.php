@@ -43,7 +43,7 @@ class ProjectTest extends AbstractTest {
 		$this->assertSame( 2, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
-	public function for_test_asset(): array {
+	public static function for_test_asset(): array {
 		return array(
 			'with known asset'   => array(
 				'../src/main.css',
@@ -145,7 +145,7 @@ class ProjectTest extends AbstractTest {
 		$this->assertTrue( true );
 	}
 
-	public function for_build_banner_possibly(): array {
+	public static function for_build_banner_possibly(): array {
 		return array(
 			'with a css entry' => array(
 				'../src/main.css',
