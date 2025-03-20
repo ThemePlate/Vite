@@ -1,9 +1,10 @@
-import { mergeConfig, normalizePath } from 'vite';
-import { extname, relative, resolve, dirname } from 'path';
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
+import { dirname, extname, relative, resolve } from 'path';
+import { mergeConfig, normalizePath } from 'vite';
+import { normalizeEntries, normalizeEntryNames } from './helpers';
 
-import type { ConfigEnv, Plugin, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
-import type { InputOption, NormalizedOutputOptions, OutputBundle } from 'rollup';
+import type { NormalizedOutputOptions, OutputBundle } from 'rollup';
+import type { ConfigEnv, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
 
 const configFile = 'vite.themeplate.json';
 const defaultUrls = {
@@ -16,8 +17,8 @@ export default function themeplate( path: string | readonly string[] = [], banne
 
 	function writeConfig( urls: ResolvedServerUrls = defaultUrls ) {
 		const file = resolve( resolvedConfig.root, configFile );
-		const entryNames = normalizeEntryNames( resolvedConfig.build.rollupOptions.input! );
-		const entries = normalizeEntries( resolvedConfig.build.rollupOptions.input! );
+		const entryNames = normalizeEntryNames( resolvedConfig.build.rollupOptions.input!, resolvedConfig.root );
+		const entries = normalizeEntries( resolvedConfig.build.rollupOptions.input!, resolvedConfig.root );
 		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
 		const data = {
@@ -27,23 +28,6 @@ export default function themeplate( path: string | readonly string[] = [], banne
 			entryNames,
 			entries,
 		};
-
-		function normalizeEntryNames( input: InputOption ): { [ name: string ]: string } {
-			if ( typeof input !== 'object' || Array.isArray( input ) ) {
-				return {};
-			}
-
-			return Object.entries( input ).reduce( ( acc: { [ name: string ]: string }, [ key, value ] ) => {
-					acc[ key ] = normalizePath( relative( resolvedConfig.root, value ) );
-					return acc;
-				}, {} );
-		}
-
-		function normalizeEntries( input: InputOption ): string[] {
-			const paths: string[] = Array.isArray( input ) ? input as string[] : ( typeof input === 'object' ? Object.values( input ) : [input as string] );
-
-			return [ ...new Set( paths.filter( path => path ).map( path => relative( resolvedConfig.root, path ) ).map( normalizePath ) ) ];
-		}
 
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
 	}
