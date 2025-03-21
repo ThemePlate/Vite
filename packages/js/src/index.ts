@@ -1,17 +1,12 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 import { extname, relative, resolve } from 'path';
 import { mergeConfig } from 'vite';
+import { configFile, defaultUrls, ensure } from './config';
 import { normalizeEntries, normalizeEntryNames } from './helpers';
 import { resolveBase } from './resolvers';
 
 import type { NormalizedOutputOptions, OutputBundle } from 'rollup';
 import type { ConfigEnv, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
-
-const configFile = 'vite.themeplate.json';
-const defaultUrls = {
-	local: [],
-	network: [],
-};
 
 export default function themeplate( path: string | readonly string[] = [], banner?: string ) {
 	let resolvedConfig: ResolvedConfig;
@@ -61,20 +56,6 @@ export default function themeplate( path: string | readonly string[] = [], banne
 
 			if ( undefined === banner ) {
 				return;
-			}
-
-			const ensure = ( comment: string ) => {
-				comment = comment.trim();
-
-				if ( ! comment.startsWith( '/*!' ) ) {
-					comment = '/*! ' + comment;
-				}
-
-				if ( ! comment.endsWith( '*/' ) ) {
-					comment += ' */';
-				}
-
-				return comment;
 			}
 
 			for ( const [ fileName, output ] of Object.entries( bundle ) ) {
