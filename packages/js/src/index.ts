@@ -1,7 +1,8 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
-import { dirname, extname, relative, resolve } from 'path';
-import { mergeConfig, normalizePath } from 'vite';
+import { extname, relative, resolve } from 'path';
+import { mergeConfig } from 'vite';
 import { normalizeEntries, normalizeEntryNames } from './helpers';
+import { resolveBase } from './resolvers';
 
 import type { NormalizedOutputOptions, OutputBundle } from 'rollup';
 import type { ConfigEnv, ResolvedConfig, ResolvedServerUrls, UserConfig, ViteDevServer } from 'vite';
@@ -30,32 +31,6 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		};
 
 		writeFileSync( file, JSON.stringify( data, null, 2 ), 'utf8' );
-	}
-
-	function resolveWpRoot( configRoot: string ) {
-		let directory = resolve( process.cwd(), configRoot );
-
-		const exists = ( directory: string ) => {
-			return existsSync( resolve( directory, 'wp-config.php' ) );
-		}
-
-		while ( dirname( directory ) !== directory && ! exists( directory ) ) {
-			directory = dirname( directory );
-		}
-
-		if ( exists( directory ) ) {
-			return `/${ normalizePath( relative( directory, configRoot ) ) }/`;
-		}
-
-		return '/';
-	}
-
-	function resolveBase( mode: string, config: UserConfig ) {
-		if ( 'development' === mode ) {
-			return '/';
-		}
-
-		return resolveWpRoot( config?.root ?? '' ) + ( config.build?.outDir ?? 'dist' );
 	}
 
 	return {
