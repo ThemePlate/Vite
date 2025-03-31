@@ -82,7 +82,7 @@ class ProjectTest extends AbstractTester {
 
 	#[DataProvider( 'for_test_asset' )]
 	public function test_dev_non_uri_path( string $entry ): void {
-		$path  = $this->vite->path( $entry, false );
+		$path = $this->vite->path( $entry, false );
 
 		$slashed = trailingslashit( $this->vite->config->root );
 
@@ -91,7 +91,7 @@ class ProjectTest extends AbstractTester {
 
 	#[DataProvider( 'for_test_asset' )]
 	public function test_build_non_uri_path( string $entry, bool $is_known ): void {
-		$path  = $this->vite->path( $entry, false );
+		$path = $this->vite->path( $entry, false );
 
 		$slashed = trailingslashit( $this->vite->config->root );
 
@@ -108,7 +108,7 @@ class ProjectTest extends AbstractTester {
 		expect( 'wp_enqueue_style' )->never();
 
 		$this->vite->script( '../src/main.js' );
-		$this->assertTrue( true );
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function test_build_mode_enqueue_entry_chunk_with_imports_and_css(): void {
@@ -119,7 +119,7 @@ class ProjectTest extends AbstractTester {
 
 		$this->vite->script( '../src/main.js' );
 		$this->vite->style( '../src/main.css' );
-		$this->assertTrue( true );
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function test_dev_mode_register_and_enqueue_chunks(): void {
@@ -127,7 +127,7 @@ class ProjectTest extends AbstractTester {
 		expect( 'wp_enqueue_script' )->never();
 
 		$this->vite->script( '../src/views/foo.js' );
-		$this->assertTrue( true );
+		$this->expectNotToPerformAssertions();
 	}
 
 	public function test_build_mode_register_only_non_entry_chunk(): void {
@@ -135,7 +135,7 @@ class ProjectTest extends AbstractTester {
 		expect( 'wp_enqueue_script' )->never();
 
 		$this->vite->script( '../src/views/foo.js' );
-		$this->assertTrue( true );
+		$this->expectNotToPerformAssertions();
 	}
 
 	public static function for_build_banner_possibly(): array {
