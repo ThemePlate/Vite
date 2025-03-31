@@ -6,10 +6,11 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ThemePlate\Vite\Project;
 use function Brain\Monkey\Functions\expect;
 
-class ProjectTest extends AbstractTest {
+class ProjectTest extends AbstractTester {
 	protected Project $vite;
 	protected string $root;
 
@@ -56,18 +57,14 @@ class ProjectTest extends AbstractTest {
 		);
 	}
 
-	/**
-	 * @dataProvider for_test_asset
-	 */
+	#[DataProvider( 'for_test_asset' )]
 	public function test_dev_mode_path( string $entry ): void {
 		$parse = parse_url( $this->vite->path( $entry ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 
 		$this->assertNotSame( self::BASE_URL, $parse['scheme'] . '://' . $parse['host'] );
 	}
 
-	/**
-	 * @dataProvider for_test_asset
-	 */
+	#[DataProvider( 'for_test_asset' )]
 	public function test_build_mode_path( string $entry, bool $is_known ): void {
 		$path  = $this->vite->path( $entry );
 		$parse = parse_url( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
@@ -83,9 +80,7 @@ class ProjectTest extends AbstractTest {
 		}
 	}
 
-	/**
-	 * @dataProvider for_test_asset
-	 */
+	#[DataProvider( 'for_test_asset' )]
 	public function test_dev_non_uri_path( string $entry ): void {
 		$path  = $this->vite->path( $entry, false );
 
@@ -94,9 +89,7 @@ class ProjectTest extends AbstractTest {
 		$this->assertSame( $slashed . $entry, $path );
 	}
 
-	/**
-	 * @dataProvider for_test_asset
-	 */
+	#[DataProvider( 'for_test_asset' )]
 	public function test_build_non_uri_path( string $entry, bool $is_known ): void {
 		$path  = $this->vite->path( $entry, false );
 
@@ -162,9 +155,7 @@ class ProjectTest extends AbstractTest {
 		);
 	}
 
-	/**
-	 * @dataProvider for_build_banner_possibly
-	 */
+	#[DataProvider( 'for_build_banner_possibly' )]
 	public function test_build_maybe_banner( string $entry, bool $has_banner ): void {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$content  = file_get_contents( $this->vite->path( $entry ) );

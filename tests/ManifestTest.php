@@ -6,10 +6,11 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ThemePlate\Vite\Config;
 use ThemePlate\Vite\Manifest;
 
-class ManifestTest extends AbstractTest {
+class ManifestTest extends AbstractTester {
 	protected Manifest $manifest;
 
 	protected function setUp(): void {
@@ -31,16 +32,12 @@ class ManifestTest extends AbstractTest {
 		);
 	}
 
-	/**
-	 * @dataProvider for_test_asset_path
-	 */
+	#[DataProvider( 'for_test_asset_path' )]
 	public function test_dev_mode_asset( string $entry ): void {
 		$this->assertEmpty( $this->manifest->asset( $entry ) );
 	}
 
-	/**
-	 * @dataProvider for_test_asset_path
-	 */
+	#[DataProvider( 'for_test_asset_path' )]
 	public function test_build_mode_asset( string $entry, bool $is_known ): void {
 		if ( $is_known ) {
 			$this->assertNotEmpty( $this->manifest->asset( $entry ) );
@@ -49,23 +46,17 @@ class ManifestTest extends AbstractTest {
 		}
 	}
 
-	/**
-	 * @dataProvider for_test_asset_path
-	 */
+	#[DataProvider( 'for_test_asset_path' )]
 	public function test_dev_mode_path( string $entry ): void {
 		$this->assertSame( $entry, $this->manifest->path( $entry ) );
 	}
 
-	/**
-	 * @dataProvider for_test_asset_path
-	 */
+	#[DataProvider( 'for_test_asset_path' )]
 	public function test_build_mode_path( string $entry ): void {
 		$this->assertSame( $entry, $this->manifest->path( $entry ) );
 	}
 
-	/**
-	 * @dataProvider for_test_asset_path
-	 */
+	#[DataProvider( 'for_test_asset_path' )]
 	public function test_outdir_custom_path( string $entry ): void {
 		$this->assertSame( 'custom/' . $entry, $this->manifest->path( $entry ) );
 	}

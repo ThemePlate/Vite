@@ -6,9 +6,10 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ThemePlate\Vite\Config;
 
-class ConfigTest extends AbstractTest {
+class ConfigTest extends AbstractTester {
 	protected Config $config;
 
 	protected function setUp(): void {
@@ -42,23 +43,17 @@ class ConfigTest extends AbstractTest {
 		}
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
 	public function test_build_entry_name( string $name, bool $is_known ): void {
 		$this->do_assert_entry_name( $name, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
 	public function test_dev_entry_name( string $name, bool $is_known ): void {
 		$this->do_assert_entry_name( $name, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
 	public function test_unnamed_entry_name( string $name ): void {
 		$this->do_assert_entry_name( $name, false );
 	}
@@ -88,23 +83,17 @@ class ConfigTest extends AbstractTest {
 		}
 	}
 
-	/**
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_build_name_entry( string $asset, bool $is_known ): void {
 		$this->do_assert_name_entry( $asset, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_dev_name_entry( string $asset, bool $is_known ): void {
 		$this->do_assert_name_entry( $asset, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_unnamed_name_entry( string $asset ): void {
 		$this->do_assert_name_entry( $asset, false );
 	}
@@ -117,32 +106,24 @@ class ConfigTest extends AbstractTest {
 		}
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_build_handle( string $asset, bool $is_known ): void {
 		$this->do_assert_handle( $asset, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_dev_handle( string $asset, bool $is_known ): void {
 		$this->do_assert_handle( $asset, $is_known );
 	}
 
-	/**
-	 * @dataProvider for_test_entry_name
-	 */
+	#[DataProvider( 'for_test_entry_name' )]
 	public function test_unnamed_handle_random_strings( string $asset ): void {
 		$this->do_assert_handle( $asset, false );
 	}
 
-	/**
-	 * @dataProvider for_test_name_entry
-	 */
+	#[DataProvider( 'for_test_name_entry' )]
 	public function test_unnamed_handle_by_entry( string $asset, bool $is_known ): void {
 		$this->do_assert_handle( $asset, $is_known );
 	}
