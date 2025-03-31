@@ -1,0 +1,7 @@
+parameters:
+  level: 5
+  excludePaths:
+    - vendor
+  scanDirectories:
+    - %currentWorkingDirectory%/.cache/wordpress
+    - %currentWorkingDirectory%/.cache/wordpress-tests-lib
