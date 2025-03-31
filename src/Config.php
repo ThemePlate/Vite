@@ -16,6 +16,7 @@ readonly class Config {
 
 	public const FILE = 'vite.themeplate.json';
 
+	// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	public const DEFAULTS = array(
 		'outDir'  => 'dist',
 		'isBuild' => true,
@@ -24,9 +25,9 @@ readonly class Config {
 			'network' => array(),
 		),
 		'entries' => array(),
-
 		'entryNames' => array(),
 	);
+	// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 
 
 	public function __construct( string $root ) {

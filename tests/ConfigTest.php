@@ -19,8 +19,9 @@ class ConfigTest extends AbstractTester {
 	}
 
 	public static function for_test_entry_name(): array {
+		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 		return array(
-			'with known name'   => array(
+			'with known name' => array(
 				'sub',
 				true,
 			),
@@ -33,6 +34,7 @@ class ConfigTest extends AbstractTester {
 				false,
 			),
 		);
+		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	}
 
 	protected function do_assert_entry_name( string $name, bool $is_known ): void {
@@ -59,8 +61,9 @@ class ConfigTest extends AbstractTester {
 	}
 
 	public static function for_test_name_entry(): array {
+		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 		return array(
-			'with known asset'   => array(
+			'with known asset' => array(
 				'../src/main.css',
 				true,
 			),
@@ -73,6 +76,7 @@ class ConfigTest extends AbstractTester {
 				false,
 			),
 		);
+		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	}
 
 	protected function do_assert_name_entry( string $asset, bool $is_known ): void {
