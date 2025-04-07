@@ -6,6 +6,17 @@ export const defaultUrls = {
 	network: [],
 };
 
+export const defaultConfig = {
+	build: {
+		manifest: true,
+	},
+	server: {
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+		},
+	},
+}
+
 export function ensure( comment: string ) {
 	comment = comment.trim();
 

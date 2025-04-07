@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 import { extname, relative, resolve } from 'path';
 import { mergeConfig } from 'vite';
-import { configFile, defaultUrls, ensure } from './config';
+import { configFile, defaultConfig, defaultUrls, ensure } from './config';
 import { normalizeEntries, normalizeEntryNames } from './helpers';
 import { resolveBase } from './resolvers';
 
@@ -37,9 +37,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 
 			return mergeConfig( config, {
 				base,
-				build: {
-					manifest: true,
-				},
+				...defaultConfig,
 			} )
 		},
 

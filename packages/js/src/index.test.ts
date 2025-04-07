@@ -6,7 +6,7 @@ import type { NormalizedOutputOptions, OutputBundle } from 'rollup';
 import type { ConfigEnv, ResolvedConfig, ResolvedServerUrls, ViteDevServer } from 'vite';
 
 import { baseConfig, mockedBanner, mockedInputs, resolvedConfig, resolvedInputs } from '../tests/config';
-import { configFile, defaultUrls } from './config';
+import { configFile, defaultConfig, defaultUrls } from './config';
 import themeplate from './index';
 
 let mockedUrls: ResolvedServerUrls = defaultUrls
@@ -59,12 +59,10 @@ afterEach( () => {
 describe( 'config', () => {
 	const mockedEnv = { mode: 'development' } as ConfigEnv;
 
-	it( 'should always set manifest', () => {
+	it( 'should always set the defaults', () => {
 		expect( themeplate().config( {}, mockedEnv ) ).toEqual( {
 			base: '/',
-			build: {
-				manifest: true,
-			},
+			...defaultConfig,
 		} );
 	} );
 
@@ -84,6 +82,11 @@ describe( 'config', () => {
 				...baseConfig.build,
 				manifest: true,
 				outDir: 'custom',
+			},
+			server: {
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+				},
 			},
 			root: 'custom-root',
 		} );
