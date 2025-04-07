@@ -35,10 +35,15 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		config( config: UserConfig, env: ConfigEnv ) {
 			const base = config.base ?? resolveBase( env.mode, config );
 
-			return mergeConfig( config, {
-				base,
-				...defaultConfig,
-			} )
+			return mergeConfig(
+				{ ...defaultConfig, ...config },
+				{
+					base,
+					build: {
+						manifest: true,
+					}
+				}
+			 )
 		},
 
 		configResolved( config: ResolvedConfig ) {

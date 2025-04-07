@@ -73,6 +73,11 @@ describe( 'config', () => {
 					base: '/custom-base',
 					build: { ...baseConfig.build, outDir: 'custom' },
 					root: 'custom-root',
+					server: {
+						headers: {
+							'Access-Control-Allow-Origin': 'localhost',
+						},
+					},
 				},
 				mockedEnv,
 			)
@@ -85,7 +90,7 @@ describe( 'config', () => {
 			},
 			server: {
 				headers: {
-					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Origin': 'localhost',
 				},
 			},
 			root: 'custom-root',
