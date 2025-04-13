@@ -73,7 +73,7 @@ readonly class Project {
 		if ( ! $this->development() ) {
 			$asset = $this->manifest->asset( $name );
 
-			if ( ! empty( $asset ) ) {
+			if ( null !== $asset ) {
 				$name = $this->manifest->path( $asset['file'] );
 			}
 		}
@@ -127,7 +127,7 @@ readonly class Project {
 			$deps[] = self::CLIENT_HANDLE;
 		}
 
-		if ( empty( $args ) ) {
+		if ( array() === $args ) {
 			$args = array(
 				'in_footer' => true,
 			);

@@ -40,7 +40,7 @@ readonly class Config {
 
 	public function entry( string $name ): string {
 
-		if ( empty( $this->data['entryNames'] ) || ! isset( $this->data['entryNames'][ $name ] ) ) {
+		if ( array() === $this->data['entryNames'] || ! isset( $this->data['entryNames'][ $name ] ) ) {
 			return '';
 		}
 
@@ -51,7 +51,7 @@ readonly class Config {
 
 	public function name( string $entry ): string {
 
-		if ( empty( $this->data['entryNames'] ) ) {
+		if ( array() === $this->data['entryNames'] ) {
 			return '';
 		}
 
@@ -78,7 +78,7 @@ readonly class Config {
 	}
 
 
-	public function prefix( string $handle = null ): string {
+	public function prefix( ?string $handle = null ): string {
 
 		static $value = '';
 

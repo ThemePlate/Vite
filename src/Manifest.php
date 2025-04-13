@@ -27,10 +27,10 @@ readonly class Manifest {
 	}
 
 
-	public function asset( string $name ): array {
+	public function asset( string $name ): ?array {
 
 		if ( ! isset( $this->assets[ $name ] ) ) {
-			return array();
+			return null;
 		}
 
 		return $this->assets[ $name ];
