@@ -10,27 +10,24 @@ namespace ThemePlate\Vite;
 /** @template T of array */
 trait Parseable {
 
-	/**
-	 * @param T $defaults
-	 * @return T
-	 */
-	protected function parse( string $file, array $defaults ): array {
+	/** @return ?T */
+	protected function parse( string $file ): ?array {
 
 		if ( ! file_exists( $file ) ) {
-			return $defaults;
+			return null;
 		}
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$contents = file_get_contents( $file );
 
 		if ( false === $contents ) {
-			return $defaults;
+			return null;
 		}
 
 		$decoded = json_decode( $contents, true );
 
 		if ( null === $decoded ) {
-			return $defaults;
+			return null;
 		}
 
 		return $decoded;

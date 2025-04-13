@@ -33,7 +33,7 @@ readonly class Manifest {
 	public function __construct( Config $config ) {
 
 		$this->config = $config;
-		$this->assets = $this->parse( $this->config->root . $this->path( '' ) . static::FILE, static::DEFAULTS );
+		$this->assets = $this->parse( $this->config->root . $this->path( '' ) . static::FILE ) ?? static::DEFAULTS;
 
 	}
 
