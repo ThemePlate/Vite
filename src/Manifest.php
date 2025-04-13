@@ -7,11 +7,22 @@
 
 namespace ThemePlate\Vite;
 
+/**
+ * @phpstan-type Asset array{
+ *     file: string,
+ *     css: string[],
+ * }
+ *
+ * @phpstan-type Assets array{}|array<string, Asset>
+ */
 readonly class Manifest {
 
+	/** @use Parseable<Assets> */
 	use Parseable;
 
 	public Config $config;
+
+	/** @var Assets */
 	public array $assets;
 
 	public const FILE = '.vite/manifest.json';
@@ -27,6 +38,7 @@ readonly class Manifest {
 	}
 
 
+	/** @return ?Asset */
 	public function asset( string $name ): ?array {
 
 		if ( ! isset( $this->assets[ $name ] ) ) {

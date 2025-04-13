@@ -44,6 +44,7 @@ class ProjectTest extends AbstractTester {
 		$this->assertSame( 2, has_action( 'wp_head', 'ThemePlate\Resource\Handler->action()' ) );
 	}
 
+	/** @return array<string, array{0: string, 1: bool}> */
 	public static function for_test_asset(): array {
 		return array(
 			'with known asset'   => array(
@@ -61,6 +62,11 @@ class ProjectTest extends AbstractTester {
 	public function test_dev_mode_path( string $entry ): void {
 		$parse = parse_url( $this->vite->path( $entry ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 
+		$this->assertNotFalse( $parse );
+		$this->assertArrayHasKey( 'scheme', $parse );
+		$this->assertArrayHasKey( 'host', $parse );
+		$this->assertNotEmpty( $parse['scheme'] ?? '' );
+		$this->assertNotEmpty( $parse['host'] ?? '' );
 		$this->assertNotSame( self::BASE_URL, $parse['scheme'] . '://' . $parse['host'] );
 	}
 
@@ -69,6 +75,11 @@ class ProjectTest extends AbstractTester {
 		$path  = $this->vite->path( $entry );
 		$parse = parse_url( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 
+		$this->assertNotFalse( $parse );
+		$this->assertArrayHasKey( 'scheme', $parse );
+		$this->assertArrayHasKey( 'host', $parse );
+		$this->assertNotEmpty( $parse['scheme'] ?? '' );
+		$this->assertNotEmpty( $parse['host'] ?? '' );
 		$this->assertSame( self::BASE_URL, $parse['scheme'] . '://' . $parse['host'] );
 
 		$slashed = trailingslashit( self::BASE_URL );
@@ -138,6 +149,7 @@ class ProjectTest extends AbstractTester {
 		$this->expectNotToPerformAssertions();
 	}
 
+	/** @return array<string, array{0: string, 1: bool}> */
 	public static function for_build_banner_possibly(): array {
 		return array(
 			'with a css entry' => array(
@@ -158,7 +170,10 @@ class ProjectTest extends AbstractTester {
 	#[DataProvider( 'for_build_banner_possibly' )]
 	public function test_build_maybe_banner( string $entry, bool $has_banner ): void {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-		$content  = file_get_contents( $this->vite->path( $entry ) );
+		$content = file_get_contents( $this->vite->path( $entry ) );
+
+		$this->assertIsString( $content );
+
 		$position = strpos( $content, '/*! ThemePlate Vite' );
 
 		if ( $has_banner ) {

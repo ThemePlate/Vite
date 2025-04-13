@@ -7,8 +7,13 @@
 
 namespace ThemePlate\Vite;
 
+/** @template T of array */
 trait Parseable {
 
+	/**
+	 * @param T $defaults
+	 * @return T
+	 */
 	protected function parse( string $file, array $defaults ): array {
 
 		if ( ! file_exists( $file ) ) {

@@ -83,6 +83,7 @@ readonly class Project {
 	}
 
 
+	/** @return string[] */
 	protected function handle_path_entry( string $src ): array {
 
 		$handle = $this->config->handle( $src );
@@ -99,6 +100,14 @@ readonly class Project {
 	}
 
 
+	/**
+	 * @param string[] $deps
+	 * @param array{
+	 *     media?: string,
+	 *     loader?: array<string, mixed>,
+	 *     resource?: array<string, bool|string>,
+	 * } $args
+	 */
 	public function style( string $src, array $deps = array(), array $args = array() ): string {
 
 		[ $handle, $path, $entry ] = $this->handle_path_entry( $src );
@@ -121,6 +130,14 @@ readonly class Project {
 	}
 
 
+	/**
+	 * @param string[] $deps
+	 * @param array{
+	 *     in_footer?: bool,
+	 *     loader?: array<string, mixed>,
+	 *     resource?: array<string, bool|string>,
+	 * } $args
+	 */
 	public function script( string $src, array $deps = array(), array $args = array() ): string {
 
 		if ( $this->development() ) {

@@ -18,6 +18,7 @@ class ConfigTest extends AbstractTester {
 		$this->config = new Config( $this->rootDir() );
 	}
 
+	/** @return array<string, array{0: string, 1: bool}> */
 	public static function for_test_entry_name(): array {
 		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 		return array(
@@ -60,6 +61,7 @@ class ConfigTest extends AbstractTester {
 		$this->do_assert_entry_name( $name, false );
 	}
 
+	/** @return array<string, array{0: string, 1: bool}> */
 	public static function for_test_name_entry(): array {
 		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 		return array(

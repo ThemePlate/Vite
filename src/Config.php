@@ -7,11 +7,26 @@
 
 namespace ThemePlate\Vite;
 
+/**
+ * @phpstan-type Data array{
+ *     outDir: string,
+ *     isBuild: bool,
+ *     urls: array{
+ *         local: string[],
+ *         network: string[],
+ *     },
+ *     entries: string[],
+ *     entryNames: array<string, string>,
+ * }
+ */
 readonly class Config {
 
+	/** @use Parseable<Data> */
 	use Parseable;
 
 	public string $root;
+
+	/** @var Data */
 	public array $data;
 
 	public const FILE = 'vite.themeplate.json';

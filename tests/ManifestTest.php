@@ -19,6 +19,7 @@ class ManifestTest extends AbstractTester {
 		$this->manifest = new Manifest( new Config( $this->rootDir() ) );
 	}
 
+	/** @return array<string, array{0: string, 1: bool}> */
 	public static function for_test_asset_path(): array {
 		return array(
 			'with known asset'   => array(
