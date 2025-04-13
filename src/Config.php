@@ -33,7 +33,7 @@ readonly class Config {
 	public function __construct( string $root ) {
 
 		$this->root = trailingslashit( $root );
-		$this->data = $this->parse( $this->root );
+		$this->data = $this->parse( $this->root . static::FILE, static::DEFAULTS );
 
 	}
 
