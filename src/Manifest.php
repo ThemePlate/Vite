@@ -10,7 +10,13 @@ namespace ThemePlate\Vite;
 /**
  * @phpstan-type Asset array{
  *     file: string,
- *     css: string[],
+ *     name: string,
+ *     isEntry: bool,
+ *     isDynamicEntry: bool,
+ *     src: string|null,
+ *     imports: string[]|null,
+ *     dynamicImports: string[]|null,
+ *     css: string[]|null,
  * }
  *
  * @phpstan-type Assets array{}|array<string, Asset>
@@ -33,7 +39,10 @@ readonly class Manifest {
 	public function __construct( Config $config ) {
 
 		$this->config = $config;
-		$this->assets = $this->parse( $this->config->root . $this->path( '' ) . static::FILE ) ?? static::DEFAULTS;
+		$this->assets = array_map(
+			fn( array $asset ) => (array) ManifestAsset::create( $asset ),
+			$this->parse( $this->config->root . $this->path( '' ) . static::FILE ) ?? static::DEFAULTS
+		);
 
 	}
 
