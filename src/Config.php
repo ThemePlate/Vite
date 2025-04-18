@@ -48,7 +48,7 @@ readonly class Config {
 	public function __construct( string $root ) {
 
 		$this->root = trailingslashit( $root );
-		$this->data = $this->parse( $this->root . static::FILE ) ?? static::DEFAULTS;
+		$this->data = (array) ConfigData::create( $this->parse( $this->root . static::FILE ) ?? static::DEFAULTS );
 
 	}
 
