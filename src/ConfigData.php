@@ -27,11 +27,11 @@ readonly class ConfigData {
 	public static function create( array $data ): self {
 
 		return new self(
-			$data['outDir'],
-			$data['isBuild'],
-			$data['urls'],
-			$data['entries'],
-			$data['entryNames'],
+			$data['outDir'] ?? Config::DEFAULTS['outDir'],
+			$data['isBuild'] ?? Config::DEFAULTS['isBuild'],
+			$data['urls'] ?? Config::DEFAULTS['urls'],
+			$data['entries'] ?? Config::DEFAULTS['entries'],
+			$data['entryNames'] ?? Config::DEFAULTS['entryNames'],
 		);
 
 	}
