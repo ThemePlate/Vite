@@ -9,7 +9,7 @@
 
 namespace ThemePlate\Vite;
 
-readonly class ManifestAsset {
+readonly class Asset {
 
 	public function __construct(
 		public readonly string $file,

@@ -9,7 +9,7 @@
 
 namespace ThemePlate\Vite;
 
-readonly class ConfigData {
+readonly class Data {
 
 	public function __construct(
 		public readonly string $outDir,

@@ -8,7 +8,7 @@
 namespace ThemePlate\Vite;
 
 /**
- * @phpstan-type Data array{
+ * @phpstan-type DataArray array{
  *     outDir: string,
  *     isBuild: bool,
  *     urls: array{
@@ -21,12 +21,12 @@ namespace ThemePlate\Vite;
  */
 readonly class Config {
 
-	/** @use Parseable<Data> */
+	/** @use Parseable<DataArray> */
 	use Parseable;
 
 	public string $root;
 
-	/** @var Data */
+	/** @var DataArray */
 	public array $data;
 
 	public const FILE = 'vite.themeplate.json';
@@ -48,7 +48,7 @@ readonly class Config {
 	public function __construct( string $root ) {
 
 		$this->root = trailingslashit( $root );
-		$this->data = (array) ConfigData::create( $this->parse( $this->root . static::FILE ) ?? static::DEFAULTS );
+		$this->data = (array) Data::create( $this->parse( $this->root . static::FILE ) ?? static::DEFAULTS );
 
 	}
 

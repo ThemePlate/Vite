@@ -8,7 +8,7 @@
 namespace ThemePlate\Vite;
 
 /**
- * @phpstan-type Asset array{
+ * @phpstan-type AssetArray array{
  *     file: string,
  *     name: string,
  *     isEntry: bool,
@@ -19,7 +19,7 @@ namespace ThemePlate\Vite;
  *     css: string[]|null,
  * }
  *
- * @phpstan-type Assets array{}|array<string, Asset>
+ * @phpstan-type Assets array{}|array<string, AssetArray>
  */
 readonly class Manifest {
 
@@ -40,14 +40,14 @@ readonly class Manifest {
 
 		$this->config = $config;
 		$this->assets = array_map(
-			fn( array $asset ) => (array) ManifestAsset::create( $asset ),
+			fn( array $asset ) => (array) Asset::create( $asset ),
 			$this->parse( $this->config->root . $this->path( '' ) . static::FILE ) ?? static::DEFAULTS
 		);
 
 	}
 
 
-	/** @return ?Asset */
+	/** @return ?AssetArray */
 	public function asset( string $name ): ?array {
 
 		if ( ! isset( $this->assets[ $name ] ) ) {

@@ -8,10 +8,19 @@ namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ThemePlate\Vite\Config;
-use ThemePlate\Vite\ConfigData;
+use ThemePlate\Vite\Asset;
 
-class ConfigDataTest extends TestCase {
+class AssetTest extends TestCase {
+	public const DEFAULTS = array(
+		'file'           => '',
+		'name'           => '',
+		'isEntry'        => false,
+		'isDynamicEntry' => false,
+		'src'            => null,
+		'imports'        => null,
+		'dynamicImports' => null,
+		'css'            => null,
+	);
 
 	/** @return array<string, array{0: array<mixed>, 1: array<mixed>}> */
 	public static function for_test_create(): array {
@@ -19,23 +28,21 @@ class ConfigDataTest extends TestCase {
 		return array(
 			'with empty value' => array(
 				array(),
-				Config::DEFAULTS,
+				self::DEFAULTS,
 			),
 			'with missing keys' => array(
 				array(
-					'outDir' => 'dist',
-					'isBuild' => true,
-					'entries' => array(),
+					'isEntry' => false,
+					'isDynamicEntry' => false,
 				),
-				Config::DEFAULTS,
+				self::DEFAULTS,
 			),
 			'with bad keys' => array(
 				array(
 					'unknown' => true,
 					'fail' => false,
-					'errors' => array(),
 				),
-				Config::DEFAULTS,
+				self::DEFAULTS,
 			),
 		);
 		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
@@ -47,7 +54,7 @@ class ConfigDataTest extends TestCase {
 	 */
 	#[DataProvider( 'for_test_create' )]
 	public function test_create( array $data, array $expected ): void {
-		$data = ConfigData::create( $data );
+		$data = Asset::create( $data );
 
 		$this->assertEquals( $expected, (array) $data );
 	}
