@@ -35,6 +35,15 @@ describe( 'resolveWpRoot', () => {
 		vi.clearAllMocks().resetAllMocks();
 	} );
 
+	it( 'should return normalized path "/"', () => {
+		vi.mock( 'fs' );
+		vi.spyOn( fs, 'existsSync' )
+			.mockReturnValue( true )
+
+		expect( resolveWpRoot( process.cwd() ) ).toBe( '/' );
+		vi.clearAllMocks().resetAllMocks();
+	} );
+
 	it( 'should handle an empty provided path value', () => {
 		expect( resolveWpRoot( '' ) ).toBe( '/' );
 	} )

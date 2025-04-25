@@ -22,7 +22,7 @@ export function resolveWpRoot( configRoot: string ) {
 	}
 
 	if ( exists( directory ) ) {
-		return `/${ normalizePath( relative( directory, configRoot ) ) }/`;
+		return normalizePath( `/${ relative( directory, configRoot ) }/` );
 	}
 
 	return '/';
