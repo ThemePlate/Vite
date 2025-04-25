@@ -20,6 +20,7 @@ describe( 'resolveWpRoot', () => {
 		vi.mock( 'fs' );
 		vi.spyOn( fs, 'existsSync' )
 			.mockReturnValueOnce( false )
+			.mockReturnValueOnce( false )
 			.mockReturnValue( true )
 
 		expect( resolveWpRoot( process.cwd() ) ).toBe( lastDirectory( process.cwd(), 1 ) );
@@ -49,6 +50,8 @@ describe( 'resolveBase', () => {
 		vi.spyOn( fs, 'existsSync' )
 			.mockReturnValueOnce( false )
 			.mockReturnValueOnce( false )
+			.mockReturnValueOnce( false )
+			.mockReturnValueOnce( false )
 			.mockReturnValue( true );
 
 		const config = { root: process.cwd(), build: { outDir: 'dist' } };
@@ -68,6 +71,8 @@ describe( 'resolveBase', () => {
 	it( 'should handle missing config properties gracefully', () => {
 		vi.mock( 'fs' );
 		vi.spyOn( fs, 'existsSync' )
+			.mockReturnValueOnce( false )
+			.mockReturnValueOnce( false )
 			.mockReturnValueOnce( false )
 			.mockReturnValueOnce( false )
 			.mockReturnValue( true );

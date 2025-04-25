@@ -8,7 +8,13 @@ export function resolveWpRoot( configRoot: string ) {
 	let directory = resolve( process.cwd(), configRoot );
 
 	const exists = ( directory: string ) => {
-		return existsSync( resolve( directory, 'wp-config.php' ) );
+		return (
+			existsSync( resolve( directory, 'wp-config.php' ) ) ||
+			(
+				existsSync( resolve( directory, 'wp-blog-header.php' ) ) &&
+				existsSync( resolve( directory, 'wp-load.php' ) )
+			)
+		);
 	}
 
 	while ( dirname( directory ) !== directory && ! exists( directory ) ) {
