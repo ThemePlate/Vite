@@ -57,7 +57,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		writeBundle( options: NormalizedOutputOptions, bundle: OutputBundle ) {
 			writeConfig();
 
-			if ( undefined === banner ) {
+			if ( undefined === banner || '' === banner.trim() ) {
 				return;
 			}
 
@@ -70,7 +70,7 @@ export default function themeplate( path: string | readonly string[] = [], banne
 					const file = resolve( root, outDir, fileName );
 					const data = 'chunk' === output.type ? output.code : output.source;
 
-					writeFileSync( file, `${ ensure( banner ) }\n${ data }` );
+					writeFileSync( file, `${ ensure( banner ) }${ data }` );
 				}
 			}
 		},

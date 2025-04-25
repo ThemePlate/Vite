@@ -20,6 +20,10 @@ export const defaultConfig = {
 export function ensure( comment: string ) {
 	comment = comment.trim();
 
+	if ( '' === comment ) {
+		return '';
+	}
+
 	if ( ! comment.startsWith( '/*!' ) ) {
 		comment = '/*! ' + comment;
 	}
@@ -28,5 +32,5 @@ export function ensure( comment: string ) {
 		comment += ' */';
 	}
 
-	return comment;
+	return comment + '\n';
 }
