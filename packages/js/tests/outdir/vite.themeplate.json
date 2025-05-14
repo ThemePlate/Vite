@@ -1,4 +1,5 @@
 {
+  "baseUrl": "/custom/",
   "outDir": "custom",
   "isBuild": true,
   "urls": {

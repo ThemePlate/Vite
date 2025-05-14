@@ -33,6 +33,7 @@ readonly class Config {
 
 	// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	public const DEFAULTS = array(
+		'baseUrl' => '/',
 		'outDir'  => 'dist',
 		'isBuild' => true,
 		'urls'    => array(

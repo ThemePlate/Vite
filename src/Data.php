@@ -12,6 +12,7 @@ namespace ThemePlate\Vite;
 readonly class Data {
 
 	public function __construct(
+		public readonly string $baseUrl,
 		public readonly string $outDir,
 		public readonly bool $isBuild,
 		/** @var array{local: string[], network: string[]} */
@@ -27,6 +28,7 @@ readonly class Data {
 	public static function create( array $data ): self {
 
 		return new self(
+			$data['baseUrl'] ?? Config::DEFAULTS['baseUrl'],
 			$data['outDir'] ?? Config::DEFAULTS['outDir'],
 			$data['isBuild'] ?? Config::DEFAULTS['isBuild'],
 			$data['urls'] ?? Config::DEFAULTS['urls'],
