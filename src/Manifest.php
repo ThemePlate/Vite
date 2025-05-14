@@ -59,13 +59,15 @@ readonly class Manifest {
 	}
 
 
-	public function path( string $file ): string {
+	public function path( string $file, bool $uri = false ): string {
 
-		if ( '' === $this->config->data['outDir'] ) {
-			return $file;
+		$path = $uri ? ltrim( $this->config->data['baseUrl'], '/' ) : $this->config->data['outDir'];
+
+		if ( '' !== $path ) {
+			$path = trailingslashit( $path );
 		}
 
-		return trailingslashit( $this->config->data['outDir'] ) . $file;
+		return $path . $file;
 
 	}
 

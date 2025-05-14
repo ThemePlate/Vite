@@ -23,7 +23,7 @@ readonly class Project {
 	public const CLIENT_HANDLE = '@vite/client';
 
 
-	public function __construct( string $root_directory, string $public_base ) {
+	public function __construct( string $root_directory, string $public_base = '' ) {
 
 		$this->config   = new Config( $root_directory );
 		$this->manifest = new Manifest( $this->config );
@@ -74,7 +74,7 @@ readonly class Project {
 			$asset = $this->manifest->asset( $name );
 
 			if ( null !== $asset ) {
-				$name = $this->manifest->path( $asset['file'] );
+				$name = $this->manifest->path( $asset['file'], $uri );
 			}
 		}
 
