@@ -38,14 +38,14 @@ export default function themeplate( path: string | readonly string[] = [], banne
 			const base = config.base ?? resolveBase( env.mode, config );
 
 			return mergeConfig(
-				{ ...defaultConfig, ...config },
+				mergeConfig( defaultConfig, config ),
 				{
 					base,
 					build: {
 						manifest: true,
 					}
 				}
-			 )
+			);
 		},
 
 		configResolved( config: ResolvedConfig ) {
