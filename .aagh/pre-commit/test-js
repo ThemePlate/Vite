@@ -1,0 +1,12 @@
+files=$(git diff --cached --name-only --diff-filter=ACM | { grep -E '.[jt]s$' || true; })
+[ -z "$files" ] && exit 0
+
+cd packages/js
+
+failed=$(npm run --silent test -- --run --reporter=tap-flat | grep -E 'not ok [0-9]+ - ' | sed -E 's/^not ok [0-9]+ - ([^ ]+) .*/\1/' | sort -u)
+[ -z "$failed" ] && exit 0
+
+echo >&2 "Unsuccessful \`npm run test\` files:"
+echo >&2 "$(echo "$failed" | sed 's/^/  /')"
+
+exit 1
