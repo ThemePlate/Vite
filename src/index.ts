@@ -20,7 +20,9 @@ export default function themeplate( path: string | readonly string[] = [], banne
 		const entries = normalizeEntries( resolvedConfig.build.rollupOptions.input! );
 		const isBuild = resolvedConfig.isProduction;
 		const outDir = resolvedConfig.build.outDir;
+		const baseUrl = resolvedConfig.base;
 		const data = {
+			baseUrl,
 			outDir,
 			isBuild,
 			urls,

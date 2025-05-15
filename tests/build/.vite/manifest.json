@@ -1,37 +1,41 @@
 {
   "../src/main.css": {
-    "file": "assets/style-nNQz4JGO.css",
-    "isEntry": true,
-    "src": "../src/main.css"
+    "file": "assets/style-W1erjkBN.css",
+    "src": "../src/main.css",
+    "isEntry": true
   },
   "../src/main.js": {
-    "css": [
-      "assets/style-nNQz4JGO.css"
+    "file": "assets/script-05NFwo5P.js",
+    "name": "script",
+    "src": "../src/main.js",
+    "isEntry": true,
+    "imports": [
+      "_shared-DMWQDjYC.js"
     ],
     "dynamicImports": [
       "../src/views/foo.js"
     ],
-    "file": "assets/script-Sbs0zCsD.js",
-    "imports": [
-      "_shared-wT3u9UKq.js"
-    ],
-    "isEntry": true,
-    "src": "../src/main.js"
+    "css": [
+      "assets/style-W1erjkBN.css"
+    ]
   },
   "../src/sub.js": {
-    "file": "assets/sub-oqqdHPRx.js",
-    "imports": [
-      "_shared-wT3u9UKq.js"
-    ],
+    "file": "assets/sub-DUz6857f.js",
+    "name": "sub",
+    "src": "../src/sub.js",
     "isEntry": true,
-    "src": "../src/sub.js"
+    "imports": [
+      "_shared-DMWQDjYC.js"
+    ]
   },
   "../src/views/foo.js": {
-    "file": "assets/foo-3PuZ_W0Y.js",
-    "isDynamicEntry": true,
-    "src": "../src/views/foo.js"
+    "file": "assets/foo-amJS4CeX.js",
+    "name": "foo",
+    "src": "../src/views/foo.js",
+    "isDynamicEntry": true
   },
-  "_shared-wT3u9UKq.js": {
-    "file": "assets/shared-wT3u9UKq.js"
+  "_shared-DMWQDjYC.js": {
+    "file": "assets/shared-DMWQDjYC.js",
+    "name": "shared"
   }
 }

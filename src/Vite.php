@@ -26,6 +26,7 @@ class Vite {
 	public const CONFIG = 'vite.themeplate.json';
 
 	public const DEFAULTS = array(
+		'baseUrl' => '/',
 		'outDir'  => 'dist',
 		'isBuild' => true,
 		'urls'    => array(
@@ -38,7 +39,7 @@ class Vite {
 	);
 
 
-	public function __construct( string $project_root, string $public_base ) {
+	public function __construct( string $project_root, string $public_base = '' ) {
 
 		$this->public_base = trailingslashit( $public_base );
 		$this->custom_data = new CustomData();
@@ -73,13 +74,15 @@ class Vite {
 	}
 
 
-	protected function outpath( string $file ): string {
+	protected function outpath( string $file, bool $uri = false ): string {
 
-		if ( '' === $this->config['outDir'] ) {
-			return $file;
+		$path = $uri ? ltrim( $this->config['baseUrl'], '/' ) : $this->config['outDir'];
+
+		if ( '' !== $path ) {
+			$path = trailingslashit( $path );
 		}
 
-		return trailingslashit( $this->config['outDir'] ) . $file;
+		return $path . $file;
 
 	}
 
@@ -173,7 +176,7 @@ class Vite {
 			$asset = $this->asset( $name );
 
 			if ( ! empty( $asset ) ) {
-				$name = $this->outpath( $asset['file'] );
+				$name = $this->outpath( $asset['file'], $uri );
 			}
 		}
 
