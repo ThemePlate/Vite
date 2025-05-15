@@ -120,7 +120,7 @@ class ViteTest extends TestCase {
 	 * @dataProvider for_test_asset
 	 */
 	public function test_dev_non_uri_path( string $entry ): void {
-		$path  = $this->vite->path( $entry, false );
+		$path = $this->vite->path( $entry, false );
 
 		$slashed = trailingslashit( $this->root );
 
@@ -131,7 +131,7 @@ class ViteTest extends TestCase {
 	 * @dataProvider for_test_asset
 	 */
 	public function test_build_non_uri_path( string $entry, bool $is_known ): void {
-		$path  = $this->vite->path( $entry, false );
+		$path = $this->vite->path( $entry, false );
 
 		$slashed = trailingslashit( $this->root );
 
@@ -220,7 +220,7 @@ class ViteTest extends TestCase {
 				'shared',
 				false,
 			),
-			'with bad name' => array(
+			'with bad name'     => array(
 				'',
 				false,
 			),
@@ -262,7 +262,7 @@ class ViteTest extends TestCase {
 				'../src/main.css',
 				true,
 			),
-			'with bad asset' => array(
+			'with bad asset'     => array(
 				'../src/bad.css',
 				false,
 			),

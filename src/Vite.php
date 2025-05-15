@@ -26,15 +26,14 @@ class Vite {
 	public const CONFIG = 'vite.themeplate.json';
 
 	public const DEFAULTS = array(
-		'baseUrl' => '/',
-		'outDir'  => 'dist',
-		'isBuild' => true,
-		'urls'    => array(
+		'baseUrl'    => '/',
+		'outDir'     => 'dist',
+		'isBuild'    => true,
+		'urls'       => array(
 			'local'   => array(),
 			'network' => array(),
 		),
-		'entries' => array(),
-
+		'entries'    => array(),
 		'entryNames' => array(),
 	);
 
@@ -50,23 +49,23 @@ class Vite {
 	}
 
 
-	protected function parse( string $file, array $default = array() ): array {
+	protected function parse( string $file, array $default_value = array() ): array {
 
 		if ( ! file_exists( $file ) ) {
-			return $default;
+			return $default_value;
 		}
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$contents = file_get_contents( $file );
 
 		if ( false === $contents ) {
-			return $default;
+			return $default_value;
 		}
 
 		$decoded = json_decode( $contents, true );
 
 		if ( null === $decoded ) {
-			return $default;
+			return $default_value;
 		}
 
 		return $decoded;
@@ -154,6 +153,7 @@ class Vite {
 			return '';
 		}
 
+		// phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 		return array_search( $entry, $this->config['entryNames'], true ) ?: '';
 
 	}
@@ -212,7 +212,7 @@ class Vite {
 		}
 
 		$handle = $this->handle_prefix . $handle;
-		$path = $this->path( $entry );
+		$path   = $this->path( $entry );
 
 		return array( $handle, $path, $entry );
 
