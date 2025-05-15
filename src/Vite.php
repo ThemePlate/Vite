@@ -75,7 +75,11 @@ class Vite {
 
 	protected function outpath( string $file, bool $uri = false ): string {
 
-		$path = $uri ? ltrim( $this->config['baseUrl'], '/' ) : $this->config['outDir'];
+		$path = $uri ? ltrim( $this->config['baseUrl'] ?? '', '/' ) : $this->config['outDir'];
+
+		if ( '' === $path && $uri ) {
+			$path = $this->config['outDir'];
+		}
 
 		if ( '' !== $path ) {
 			$path = trailingslashit( $path );
